@@ -5,21 +5,21 @@
 ##############################################################################
 #                      define functions here                                 #
 ##############################################################################
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=interface&relationship=contain&target_index=3&source_id=10.10.255.11&projections=* | jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=interface&relationship=contain&target_index=3&source_id=10.10.255.11&projections=*" | jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=interface&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq &> testme
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=interface&relationship=contain&target_index=3&source_id=10.10.255.11&projections=* | jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=interface&relationship=contain&target_index=3&source_id=10.10.255.11&projections=*" | jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=interface&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq &> testme
 
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq -r &> testme
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq &> testme
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/model/types/resources?type=device" |jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/model/types/resources?type=device" | jq -r '.resourcetypes[].name'
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq &> testme
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq -r '.result[].id
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq -r '.result[].id'
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq -r &> testme
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=10.10.255.11&projections=*" | jq &> testme
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/resources?type=device" |jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/resources?type=device" | jq -r '.resourcetypes[].name'
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq &> testme
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq -r '.result[].id
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq -r '.result[].id'
 
 # Check all pods running on a specific Node:
 #oc get pods -A -o wide --field-selector spec.nodeName=worker1.openshift.dfw.accuoss.com
@@ -37,10 +37,10 @@
 #fi
 
 # get all devices in inventory 
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device" |jq -r '.result[].id' | sort
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" |jq -r '.result[].id' | sort
 
 # get all properties for a specific device
-#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources?type=device&id=10.10.255.11&projections=*" |jq
+#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device&id=10.10.255.11&projections=*" |jq
 
 # get all  
 #--------------------------------------------------------------------+
@@ -127,38 +127,41 @@ resourcemanagement()
 {
 	snmp-resource-counts()
 	{
+		tmpenv=tncmp-dev
 		###### which lab cluster do you want to choose - openshift or openshift2 #######################################################
 
-		if [[ -z "$tmpenv" ]]
-		then
-			tmpenv=$(mktemp -t checklist.XXXXXXXXX)
-			trap 'rm -f "$tmpenv"' exit
-			trap 'exit 127' hup stop term
-			dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "environment/lab/cluster selection" --clear --radiolist "select which openshift environment you want to perfom this task on." 0 0 0 "openshift" "lab1 environment" off "openshift2" "lab2 environment" off 2> "$tmpenv"
-			retval=$?
-			input=$(cat "$tmpenv")
-			case $retval in
-				0)      tmpenv=$(echo "$input")
-					echo "$tmpenv" > tmpenv
-					;;
-				1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so will return to menu.')" 5 100
-					return
-					;;
-				255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 100
-					return
-					;;
-			esac
-
-			tmpenv=${tmpenv,,}    # tolower
-		else
-			echo "tempenv variable is already defined"
-		fi
+		#if [[ -z "$tmpenv" ]]
+		#then
+		#	tmpenv=$(mktemp -t checklist.XXXXXXXXX)
+		#	trap 'rm -f "$tmpenv"' exit
+	#		trap 'exit 127' hup stop term
+		#	dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "environment/lab/cluster selection" --clear --radiolist "select which openshift environment you want to perfom this task on." 0 0 0 "openshift" "lab1 environment" off "openshift2" "lab2 environment" off 2> "$tmpenv"
+		#	retval=$?
+		#	input=$(cat "$tmpenv")
+		#	case $retval in
+		#		0)      tmpenv=$(echo "$input")
+		#			echo "$tmpenv" > tmpenv
+		#			;;
+		#		1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so will return to menu.')" 5 100
+		#			return
+		#			;;
+		#		255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 100
+		#			return
+		#			;;
+		#	esac
+#
+#			tmpenv=${tmpenv,,}    # tolower
+#		else
+#			echo "tempenv variable is already defined"
+#		fi
 
 		##### will get security cookie ##### 
-		curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+		curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
-	        # curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources" | jq &> allresources3.json
-		wait; curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources" | jq &> allresources3.json;go
+	        # Set the wait statement so user can see progress while all resources are being queried. 
+		wait
+		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources" | jq &> allresources3.json
+		go
 
 		##### remove the ems device ip for canoga #####
 		sed -i '/canogadevice/d' allresources3.json
@@ -167,14 +170,15 @@ resourcemanagement()
 		sed -i '/service/d' allresources3.json
 
 		##### get all unique resource types from allresources3.json for count headers #####	
-		cat allresources3.json | grep -e ^.*_[AAaa-ZZzz].* | cut -d'_' -f2 | cut -d':' -f1 | sort | uniq &> resourcetypes
+		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep "_" | cut -d'_' -f2 | cut -d':' -f1 | sort | uniq &> resourcetypes
+		##### get count of just devices #####
+		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep -v "_" &> devicecount
 
-		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep -v "_" | grep -e ^[0-9].* &> devicecount
-		##### get count of just resources (not devices) 
-		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep "_" | grep -v service | grep -e ^[0-9].* &> resourcecount
+		##### get count of just resources (not devices) ##### 
+		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep "_" | grep -v service &> resourcecount
 		
-		##### get count of all id's in allresources3.json
-		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep -e ^[0-9].* | grep -v service &> totalresourcecount
+		##### get count of all id's in allresources3.json #####
+		cat allresources3.json | jq -r '.. | select(type == "object" and has("id")).id' | grep -v service &> totalresourcecount
 
 		devicecount=$(cat devicecount | wc -l)
 		totalcount=$(cat totalresourcecount | wc -l)
@@ -205,7 +209,7 @@ resourcemanagement()
 		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "snmp resource counts for $tmpenv environment" --textbox finalformat 20 70
 
 		##### cleanup and return to menu #####
-		unset tmpenv getfiles devicecount totalcount resourcecount rsourcename rtcount 
+		#unset tmpenv getfiles devicecount totalcount resourcecount rsourcename rtcount 
 		#rm -f tmpenv allresources3.json devicecount resourcecount totalresourcecount mycounts resourcetypes formatfixed finalformat 
 		return
 	}
@@ -242,7 +246,7 @@ resourcemanagement()
 			taskdetail=$(mktemp -t checklist.XXXXXXXXX)
 			trap 'rm -f "$taskdetail"' exit
 			trap 'exit 127' hup stop term
-			dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "specify subtask" --clear --radiolist "what do you want to $tmptask ." 0 80 0 "all" "all resources" off "bydevice" "select resources by device(s)" off "bytype" "select resources by type" off 2> "$taskdetail"
+			dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "specify subtask" --clear --radiolist "How do you want to select resources to $tmptask." 0 80 0 "all" "all resources" off "bydevice" "select resources by device(s)" off "bytype" "select resources by type" off 2> "$taskdetail"
 			 
 			retval=$?
 			input=$(cat "$taskdetail")
@@ -266,31 +270,31 @@ resourcemanagement()
 
 
 		###### which lab cluster do you want to choose - openshift or openshift2 #######################################################
-
-		if [[ -z "$tmpenv" ]]
-		then
-			tmpenv=$(mktemp -t checklist.XXXXXXXXX)
-			trap 'rm -f "$tmpenv"' exit
-			trap 'exit 127' hup stop term
-			dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "environment/lab/cluster selection" --clear --radiolist "select which openshift environment you want to perfom this task on." 0 0 0 "openshift" "lab1 environment" off "openshift2" "lab2 environment" off 2> "$tmpenv"
-			retval=$?
-			input=$(cat "$tmpenv")
-			case $retval in
-				0)      tmpenv=$(echo "$input")
-					echo "$tmpenv" > tmpenv
-					;;
-				1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so will return to menu.')" 5 100
-                                        return
-					;;
-				255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 100
-					return
-					;;
-			esac
-
-			tmpenv=${tmpenv,,}    # tolower
-		else
-			echo "tempenv variable is already defined"
-		fi
+		tmpenv=tncmp-dev
+		#if [[ -z "$tmpenv" ]]
+		#then
+		#	tmpenv=$(mktemp -t checklist.XXXXXXXXX)
+		#	trap 'rm -f "$tmpenv"' exit
+		#	trap 'exit 127' hup stop term
+		#	dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "environment/lab/cluster selection" --clear --radiolist "select which openshift environment you want to perfom this task on." 0 0 0 "openshift" "lab1 environment" off "openshift2" "lab2 environment" off 2> "$tmpenv"
+		#	retval=$?
+		#	input=$(cat "$tmpenv")
+		#	case $retval in
+		#		0)      tmpenv=$(echo "$input")
+		#			echo "$tmpenv" > tmpenv
+		#			;;
+		#		1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so will return to menu.')" 5 100
+                #                        return
+		#			;;
+		#		255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 100
+		#			return
+		#			;;
+		#	esac
+#
+#			tmpenv=${tmpenv,,}    # tolower
+#		else
+#			echo "tempenv variable is already defined"
+#		fi
 
 		##### check if $taskdetail is all, bydevice or bytype #####
 
@@ -302,10 +306,10 @@ resourcemanagement()
 			then
 
 				##### create cookie #####
-				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 				##### get all resources to be viewed #####
-                                curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources" | jq &> allresources.json
+                                curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources" | jq &> allresources.json
 
 				##### view the json file before executing the delete #####
 				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing all resources for $tmpenv" --textbox allresources.json 80 100
@@ -313,10 +317,10 @@ resourcemanagement()
 			elif [[ "$tmptask" == 'delete' ]]
 			then
 				##### create cookie #####
-                                curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+                                curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
                                 ##### get all resources to be deleted #####
-				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources" | jq &> allresources.json
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources" | jq &> allresources.json
 
 				##### ask user if they want to see the json file before executing the delete #####
 				dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --defaultno --yesno "would you like to view the json payload file before executing the delete?" 8 100
@@ -334,7 +338,7 @@ resourcemanagement()
 						retval=$?
 						case $retval in
 							0)	##### delete all resources #####
-								curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @allresources.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+								curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @allresources.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 								dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "delete confirmation." --msgbox "$(echo "all resources for $tmpenv have been deleted.")" 5 90
 								;;
 							1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "no was pressed." --msgbox "$(echo 'no was pressed so will continue to next item or return to menu.')" 5 100
@@ -355,7 +359,7 @@ resourcemanagement()
 						retval=$?
 						case $retval in
 							0)      ##### delete all resources #####
-								curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @allresources.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+								curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @allresources.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 								dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "delete confirmation." --msgbox "$(echo "all resources for $tmpenv have been deleted.")" 5 90
 								;;
 							1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "no was pressed." --msgbox "$(echo 'no was pressed so you will be returned to menu.')" 5 100
@@ -390,13 +394,14 @@ resourcemanagement()
 			#if [[ -z "$tmprtype" ]]
                         #then
 			##### create cookie #####
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 			##### get resourcetypes #####
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/model/types/resources?type=device" | jq -r '.resourcetypes[].name' &> resourcetypes
+			##curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/resources?type=device" | jq -r '.resourcetypes[].name' &> resourcetypes
 
 			##### another way to get all resourcetypes #####
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/insight/service/dataset/resourcetypes | jq -r .[].resourcetype
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/insight/service/dataset/resourceTypes | jq -r '.[].resourceType' &> resourcetypes
+
 			cat resourcetypes | tr "\n" "," &> rtypes
 			sed -i 's/,$//' rtypes
 			rtypes=$(cat rtypes)
@@ -421,13 +426,13 @@ resourcemanagement()
 			then
 
 				##### create cookie #####
-				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 				##### view selected devices #####
 				while read line
 				do
 
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources?type=$line" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> device_export
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=$line" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> device_export
 					if [[ "$line" == "device" ]]
 					then
 						sed -i '1i\\' device_export
@@ -451,20 +456,20 @@ resourcemanagement()
 					fi
 				done < selectedrtypes
 				unset tmpenv tmptask rselect taskdetail rtypes myrtypes
-				rm -f tmpenv tmptask taskdetail rselect device_export retval_tmpenv rtypes myrtypes myselectedrtypes selectedrtypes device_export2
-				rm -f allresources3.json resourcetypes devicecount resourcecount totalresourcecount mycounts formatfixed finalformat tmptask taskdetail tmpenv device_export devices myselecteddevices selecteddevices menuchoice*
+				#rm -f tmpenv tmptask taskdetail rselect device_export retval_tmpenv rtypes myrtypes myselectedrtypes selectedrtypes device_export2
+				#rm -f allresources3.json resourcetypes devicecount resourcecount totalresourcecount mycounts formatfixed finalformat tmptask taskdetail tmpenv device_export devices myselecteddevices selecteddevices menuchoice*
 				return
 
 			elif [[ "$tmptask" == 'delete' ]]
 			then
 				##### create cookie #####
-				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 				##### get resources selected to be deleted #####
 				while read line
 				do
 					##### get each selected resource type to be deleted#####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$line&relationship=contain&target_index=*&source_id=*&projections=index" | jq &> $line.resexport.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$line&relationship=contain&target_index=*&source_id=*&projections=index" | jq &> $line.resexport.json
 
 					##### list all devices that will be deleted #####
 					cat $line.resexport.json|grep id | cut -d'"' -f4 | sort &> ids_to_be_deleted 
@@ -492,7 +497,7 @@ resourcemanagement()
 									sed -i 's/result/resources/' $line.resexport.json
 
 									##### delete all resources belonging to selected resource type #####
-									curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$line_res_export.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+									curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$line_res_export.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 									dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "delete confirmation." --msgbox "$(echo 'resources for type $line have been deleted.')" 5 90
 									continue
 									;;
@@ -520,10 +525,10 @@ resourcemanagement()
 			elif [[ "$tmptask" == 'create' ]] || [[ "$tmptask" == 'update' ]]
 			then
 				##### create cookie #####
-				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 				##### get all devices #####
-				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources?type=device" | jq . &> device_export.json
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" | jq . &> device_export.json
 
 				##### list all devices that will be deleted #####
 				cat device_export.json | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' &> device_export_cleaned
@@ -539,7 +544,7 @@ resourcemanagement()
 				sed -i 's/result/resources/' device_export.json
 
 				##### delete all devices #####
-				#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+				#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 			else
                                 echo "variable tmptask has no value, returning to menu"
 			fi
@@ -550,10 +555,10 @@ resourcemanagement()
 		elif [[ "$taskdetail" == 'bydevice' ]]
 		then
 			##### create cookie #####
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 			##### get all devices #####
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources?type=device" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> device_export
+			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> device_export
 
 			# create checklist of devices for user to choose
 			cat device_export | tr "\n" "," &> devices
@@ -609,7 +614,7 @@ resourcemanagement()
 					if [[ "$rselect" == 'all' ]]
 					then
 						# get all properties for a specific device
-						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> allresources.json
+						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> allresources.json
 
 						##### list all resources #####
 						dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing all resources for device $line" --textbox allresources.json 80 100
@@ -617,7 +622,7 @@ resourcemanagement()
 
 					elif [[ "$rselect" == 'selecttype' ]]
 					then
-						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes		
+						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes		
 
 						# create checklist of devices for user to choose
 						cat artypes | tr "\n" "," &> myartypes 
@@ -642,7 +647,7 @@ resourcemanagement()
 
 						while read arline
 						do
-							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> byrtype.json
+							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> byrtype.json
 							##### list all resources #####
                                                 	dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing selected resource type for device $line" --textbox byrtype.json 80 100
 								
@@ -652,7 +657,7 @@ resourcemanagement()
 
 					elif [[ "$rselect" == 'selectspecific' ]]
                                         then
-						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq | sed '/records/d' &> testme && cat testme | jq -r '.. | select(type == "object" and has("id")).id' &> rids
+						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq | sed '/records/d' &> targets && cat targets | jq -r '.. | select(type == "object" and has("id")).id' &> rids
 
 						# create checklist of resource ids for user to choose
 						cat rids | tr "\n" "," &> myrids
@@ -684,7 +689,7 @@ resourcemanagement()
 						do
 							targettype=$(echo "$rline" | cut -d'_' -f2 | cut -d':' -f1)
 							targetindex=$(echo "$rline" | cut -d'<' -f2 | cut -d'>' -f1)
-							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=*" | jq &> stype.json
+							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=*" | jq &> stype.json
 							##### list all resources #####
 							dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing selected specific resource from device $line" --textbox stype.json 80 100
 
@@ -695,8 +700,7 @@ resourcemanagement()
                                 	fi
 				done < selecteddevices
 				unset tmpenv tmptask rtargets mtask devices myrids rselect taskdetail myartypes rtypes myrtypes
-                                rm -f tmpenv tmptask selectedtargets mtask rtargets myselectedtargets selectedtargets.json relation_targets selectedsources rsources myselectedsources selectedsource.json relation_sources taskdetail selecteddevices rselect myselecteddevices devices rids myrids myselectedrids selectedrids device_export allresources.json myartypes myselectedartypes selectedartypes *.resexport.json ids_to_be_deleted artypes byrtype.json retval_tmpenv rtypes myrtypes myselectedrtypes selectedrtypes device_export2 stype.json targettype targetindex
-				rm -f allresources3.json resourcetypes devicecount resourcecount totalresourcecount mycounts formatfixed finalformat tmptask taskdetail tmpenv device_export devices myselecteddevices selecteddevices menuchoice*
+                                #rm -f tmpenv tmptask selectedtargets mtask rtargets myselectedtargets selectedtargets.json relation_targets selectedsources rsources myselectedsources selectedsource.json relation_sources taskdetail selecteddevices rselect myselecteddevices devices rids myrids myselectedrids selectedrids device_export allresources.json myartypes myselectedartypes selectedartypes *.resexport.json ids_to_be_deleted artypes byrtype.json retval_tmpenv rtypes myrtypes myselectedrtypes selectedrtypes device_export2 stype.json targettype targetindex allresources3.json resourcetypes devicecount resourcecount totalresourcecount mycounts formatfixed finalformat tmptask taskdetail tmpenv device_export devices myselecteddevices selecteddevices targets menu*
 				return
 
 			elif [[ "$tmptask" == 'delete' ]]
@@ -731,7 +735,7 @@ resourcemanagement()
                                         if [[ "$rselect" == 'all' ]]
                                         then
                                                 # get all resources for a specific device
-                                                curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=index" | jq &> allresources.json
+                                                curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=index" | jq &> allresources.json
 
                                                 ##### list all resources #####
                                                 #dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing all resources for device $line" --textbox allresources.json 80 100
@@ -756,7 +760,7 @@ resourcemanagement()
 										sed -i 's/result/resources/' allresources.json
 
 										##### delete all resources belonging to selected resource type #####
-										curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @allresources.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+										curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @allresources.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 										dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "delete confirmation." --msgbox "$(echo "resources for type $arline have been deleted.")" 5 90
 										continue
 										;;
@@ -779,7 +783,7 @@ resourcemanagement()
 
                                         elif [[ "$rselect" == 'selecttype' ]]
                                         then
-                                                curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes
+                                                curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes
 
                                                 # create checklist of devices for user to choose
                                                 cat artypes | tr "\n" "," &> myartypes
@@ -806,7 +810,7 @@ resourcemanagement()
 						while read arline
 						do
 							##### get each selected resource type to be deleted#####
-							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=index" | jq &> $arline.resexport.json
+							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=index" | jq &> $arline.resexport.json
 
 							##### list all devices that will be deleted #####
 							cat $arline.resexport.json|grep id | cut -d'"' -f4 | sort &> ids_to_be_deleted
@@ -834,7 +838,7 @@ resourcemanagement()
 											sed -i 's/result/resources/' $arline.resexport.json
 
 											##### delete all resources belonging to selected resource type #####
-											curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$arline.resexport.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+											curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$arline.resexport.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 											dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "delete confirmation." --msgbox "$(echo "resources for type $arline have been deleted.")" 5 90
 											continue
 											;;
@@ -862,7 +866,7 @@ resourcemanagement()
 
 					elif [[ "$rselect" == 'selectspecific' ]]
 					then
-						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq | sed '/records/d' &> testme && cat testme | jq -r '.. | select(type == "object" and has("id")).id' &> rids
+						curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq | sed '/records/d' &> testme && cat testme | jq -r '.. | select(type == "object" and has("id")).id' &> rids
 
 						# create checklist of resource ids for user to choose
 						cat rids | tr "\n" "," &> myrids
@@ -894,7 +898,7 @@ resourcemanagement()
 						do
 							targettype=$(echo "$rline" | cut -d'_' -f2 | cut -d':' -f1)
 							targetindex=$(echo "$rline" | cut -d'<' -f2 | cut -d'>' -f1)
-							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=*" | jq &> stype.json
+							curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=*" | jq &> stype.json
 
 							##### ask user if they want to see the json file before executing the delete #####
 							dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --defaultno --yesno "would you like to view the json payload file before executing the delete?" 8 100
@@ -917,7 +921,7 @@ resourcemanagement()
 
 											
 											##### delete all resources belonging to selected resource type #####
-											#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @stype.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+											#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @stype.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 											dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "delete confirmation." --msgbox "$(echo "resource $rline has been deleted.")" 5 90
 											continue
 											;;
@@ -961,10 +965,10 @@ resourcemanagement()
 
 
 				##### create cookie #####
-	#			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	#			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 				##### get all devices #####
-	#			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources?type=device" | jq . &> device_export.json
+	#			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" | jq . &> device_export.json
 
 				##### list all devices that will be deleted #####
 	#			cat device_export.json | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' &> device_export_cleaned
@@ -980,7 +984,7 @@ resourcemanagement()
 	#			sed -i 's/result/resources/' device_export.json
 
 				##### delete all devices #####
-				#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+				#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 
 			else
 				echo "variable tmptask has no value, returning to menu"
@@ -1017,7 +1021,7 @@ resourcemanagement()
 			echo "temptask variable is already defined"
 		fi
 
-		tmpenv=openshift
+		tmpenv=tncmp-dev
 		###### relations api only seems to work from the local environment #####
 		#if [[ -z "$tmpenv" ]]
 		#then
@@ -1063,8 +1067,8 @@ resourcemanagement()
 			##### check if $tmptask is source or target #####
 			if [[ "$tmptask" == 'source' ]]
 			then
-				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/model/types/relations | jq -r | grep "source" | sort | uniq | cut -d'"' -f4 &> relation_sources
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/relations | jq -r | grep "source" | sort | uniq | cut -d'"' -f4 &> relation_sources
 				sed -i '/^\s*$/d' relation_sources 
 				
 				# create checklist of devices for user to choose
@@ -1091,7 +1095,7 @@ resourcemanagement()
 				while read line
 				do
 					##### get targets for each relationship source selected #####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/model/types/relations?source=$line" | jq &> selectedsource.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/relations?source=$line" | jq &> selectedsource.json
 					##### list targets for source relationship #####
 					dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing relationship targets for selected source $line" --textbox selectedsource.json 80 100
 
@@ -1100,8 +1104,8 @@ resourcemanagement()
 			elif [[ "$tmptask" == 'target' ]]
 			then
 				##### get all relation targets #####
-				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/model/types/relations | jq -r | grep target | sort | uniq | cut -d'"' -f4 &> relation_targets
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/relations | jq -r | grep target | sort | uniq | cut -d'"' -f4 &> relation_targets
 				sed -i '/^\s*$/d' relation_targets
 
 				# create checklist of relationship targets for user to choose
@@ -1128,7 +1132,7 @@ resourcemanagement()
 				while read line
 				do
 					##### get sources for each relationship target selected #####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/model/types/relations?target=$line" | jq &> selectedtarget.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/model/types/relations?target=$line" | jq &> selectedtarget.json
 
 					##### list relationship sources for selected targets #####
 					dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing relationship sources for selected target $line" --textbox selectedtarget.json 80 100
@@ -1140,12 +1144,12 @@ resourcemanagement()
 		##### check if mtask is create #####
 		elif [[ "$mtask" == 'create' ]]
 		then
-			curl -s -k --cookie mycookie -x "POST" -h "content-type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/relations/create"
+			curl -s -k --cookie mycookie -x "POST" -h "content-type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/relations/create"
 
 		##### check if mtask is delete #####
 		elif [[ "$mtask" == 'delete' ]]
 		then
-			curl -s -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/relations/delete"
+			curl -s -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/relations/delete"
 		else
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "no matches for variable tmptask" --msgbox "$(echo 'no matches were found so you will be returned to the menu')" 10 60
 		fi
@@ -1199,7 +1203,7 @@ groupmanagement()
 {
 #########################################################
 # List all groups
-# curl -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/groups
+# curl -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/groups
 
 #########################
 # List specific group
@@ -1310,10 +1314,10 @@ fi
 #if [[ -z "$tmprtype" ]]
 #then
 #	##### create cookie #####
-#	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+#	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 #
 #	##### get resourcetypes #####
-#	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/insight/service/dataset/resourceTypes" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sed 's/resourceType://g'| sort &> resourcetypes
+#	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/insight/service/dataset/resourceTypes" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sed 's/resourceType://g'| sort &> resourcetypes
 #
 #	rtypes=$(cat resourcetypes | tr "\n" ",")
 #
@@ -1346,19 +1350,19 @@ if [[ "$tmptask" == 'viewtimeseries' ]]
 then
 
 	##### create cookie #####
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	##### view selected devices #####
 	selectedrtypes=$(cat selectedrtypes)
 	IFS="," read -a MYTARGETS <<< $selectedrtypes
 	for i in "${MYTARGETS[@]}"
 	do
-		#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/insight/service/dataset/metrics?resourcetype=$i"| jq .
-		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/insight/service/dataset/metrics?resourceType=$i"| jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/scope:/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> metric_export
+		#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/insight/service/dataset/metrics?resourcetype=$i"| jq .
+		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/insight/service/dataset/metrics?resourceType=$i"| jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/scope:/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> metric_export
 
 		dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing metrics by selected resourceType $i" --textbox metric_export 40 120
 
-		#curl -k --cookie mycookie 'https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/insight/service/dataset/metric/timeseries?entityNames=10.10.255.7_interface:%3C7%3E&metrics=MAX(Network.Outbound.Utilization.Percent)&time=last-day&metricDoubleValue=true' | jq
+		#curl -k --cookie mycookie 'https://dashboard-tncmp.apps.tncmp-dev.ftr.com/insight/service/dataset/metric/timeseries?entityNames=10.10.255.7_interface:%3C7%3E&metrics=MAX(Network.Outbound.Utilization.Percent)&time=last-day&metricDoubleValue=true' | jq
 	done
 	rm -f tmptask resourcetypes myselectedrtypes selectedrtypes metric_export menuchoices.3769768rm -f tmptask resourcetypes myselectedrtypes selectedrtypes metric_export menuchoices.3769768
 
@@ -1366,10 +1370,10 @@ then
 elif [[ "$tmptask" == 'viewsummary' ]]
 then
 	##### create cookie #####
-curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	##### get all devices #####
-#        curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources?type=device" | jq . &> device_export.json
+#        curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" | jq . &> device_export.json
 
 	##### list all devices that will be deleted #####
 #        cat device_export.json | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' &> device_export_cleaned
@@ -1385,7 +1389,7 @@ curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npia
 #        sed -i 's/result/resources/' device_export.json
 
 	##### delete all devices #####
-	#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/delete"
+	#curl -s  -v -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @device_export.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/delete"
 
 elif [[ "$tmptask" == 'viewsnmpmetrics' ]]
 then
@@ -1521,8 +1525,8 @@ else
 fi
 
 ##### get cookie #####
-curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name' &> threshnames
+curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name' &> threshnames
 sed -i 's/ /_/g' threshnames
 
 if [[ "$proftask" == 'view' ]]
@@ -1550,7 +1554,7 @@ then
 	#selectedpfiles=$(cat selectedpfiles)
 	while read line
 	do
-		curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> thresh.json
+		curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name=$line | jq &> thresh.json
 		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold configuration for $line" --msgbox "$(cat thresh.json | jq)" 0 0
 	done < selectedtfiles
 
@@ -1590,8 +1594,8 @@ then
 
 		"copy existing")
 			##### get cookie #####
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name' &> threshnames
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name' &> threshnames
 			sed -i 's/ /_/g' threshnames
 
 			##### create checklist with names from all thresholds #####
@@ -1618,7 +1622,7 @@ then
 			do
 
 				# get each selected threshold and save to a json file
-				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> $line.json
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name=$line | jq &> $line.json
 
 				# make default changes to specific fields of the copied threshold 
 				sed -i 's/"creation_time": ".*",/"creation_time": 0,/' $line.json
@@ -1650,10 +1654,10 @@ then
 				mv $line.edited.json $newthreshname.edited.json
 
 				# create the new threshold
-				curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$newthreshname.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/create
+				curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$newthreshname.edited.json https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/create
 
 				# get new threshold 
-				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$newthreshname" | jq &> $newthreshname.json
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name="$newthreshname" | jq &> $newthreshname.json
 
 				# display new snmp-discovery profile to user
 				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp threshold created ($newthreshname)" --msgbox "$(cat $newthreshname.json)" 0 0
@@ -1690,17 +1694,17 @@ then
 		#	echo "$profilename" > tester
 #
 			###  define and create cookie ###
-#			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+#			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
-#			curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$createfile https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/create
-#			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+#			curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$createfile https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/create
+#			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
 #			cat output.json | grep -o $profilename &> query_result
 #			query_result=$(cat output.json | grep -o $profilename)
 #			if [[ "$query_result" == "$profilename" ]]
 #			then
 #				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery create results" --msgbox "$(echo 'the snmp-discovery profile was successfully created and it will now be fetched for you to validate.')" 5 90
 #				# get created snmp-discovery profile
-#                        	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$profilename" | jq &> latest.json
+#                        	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name="$profilename" | jq &> latest.json
 #                        	# display updated snmp-discovery profile to user
 #                        	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery profile $profilename created." --msgbox "$(cat latest.json)" 0 0
 #			else
@@ -1754,7 +1758,7 @@ then
 			>backup_thresholds/$filename
 
 			# get selected threshold chosen and save to a json file
-                        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> $line.json
+                        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name=$line | jq &> $line.json
 
 			# copy the threshold to backup directory in json format for rcovery later if needed
 			cat $line.json | jq >> backup_thresholds/$filename
@@ -1767,13 +1771,13 @@ then
 			if [ $? -eq 0 ]
 			then
 				# delete the selected threshold
-				curl -s -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$line.json -k https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/delete
+				curl -s -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$line.json -k https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/delete
 
 				# confirmation of threshold deletion
 				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold deleted" --msgbox "$(echo "threshold has been deleted. now fetching threshold list to validate")" 5 90
 
 				# verify deletion to user after the threshold(s) are deleted #####
-				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "current threshold list for $tmpenv" --msgbox "$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name')" 0 0
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "current threshold list for $tmpenv" --msgbox "$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name')" 0 0
 
 				rm -f $line.json output.json
 
@@ -1805,7 +1809,7 @@ then
 
 elif [[ "$proftask" == 'update' ]]
 then
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 	# create checklist with names from all thresholds
         cat threshnames | tr "\n" "," &> pretfiles
         sed -i 's/,$//' prepfiles
@@ -1829,16 +1833,16 @@ then
         while read line
         do
 		# get each selected threshold and save to a json file
-		curl -s -k --cookie mycookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$line" | jq &> $line.json
+		curl -s -k --cookie mycookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name="$line" | jq &> $line.json
 
 		# allow user to edit the selected file
 		dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "edit threshold" --editbox $line.json 0 0 2> $line.edited.json
 
 		# update the threshold 
-		curl -s -k --cookie mycookie -x put -h "content-type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/update
+		curl -s -k --cookie mycookie -x put -h "content-type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/update
 
 		# get updated threshold 
-		curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$line" | jq &> latest_$line.json
+		curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list?name="$line" | jq &> latest_$line.json
 
 		# display updated threshold to user
 		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp updated threshold $line" --msgbox "$(cat latest_$line.json)" 0 0
@@ -1874,7 +1878,7 @@ then
 
 	###  define and create cookie ###
 	mycookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-	curl -s -k --cookie-jar $mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar $mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	rm -f proftask tmpenv createfile tester
         unset proftask tmpenv createfile profilename
@@ -1908,7 +1912,7 @@ then
         do
 
 		###  create cookie ###
-                curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+                curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
                 # remove old times from threshold before recovering the threshold 
 		sed -i 's/"creation_time": ".*",/"creation_time": 0,/' $line
@@ -1916,10 +1920,10 @@ then
 
 
 		# create the new threshold
-		curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$line https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/create
+		curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$line https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/create
 
 		# get new threshold
-		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "recovered threshold should show on list of thresholds now" --msgbox "$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name')" 0 0
+		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "recovered threshold should show on list of thresholds now" --msgbox "$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name')" 0 0
 	done < selectedrecfiles
         rm -f proftask tmpenv recfiles recover_threshold myselectedtfiles selectedrecfiles
         unset proftask tmpenv recfiles 
@@ -2557,10 +2561,10 @@ if [[ "$taskdetail" == 'all' ]]
 then
 	pollprd=$(cat pollprd)
 	##### will get security cookie #####
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	##### Get all resources in the system #####
-	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
+	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
 
 	##### Fix format in json payload file #####
 	sed -i '/totalrecords/d' fix_pollingInterval.json
@@ -2585,13 +2589,13 @@ then
 	sed -i "s/\"pollingInterval\": \"$pollprd\",/\"pollingInterval\":$pollprd,/g" final_fixed.json	
 
 	##### Create/update the pollingInterval property for each resource #####
-	curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/create"
+	curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
 
 	##### Inform user that command is complete and prepare to verify #####
 	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
 
 	##### Get all resources after change #####
-	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
 	##### Present updated json file of resources for verification #####
 	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
@@ -2606,7 +2610,7 @@ then
 	pollprd=$(cat pollprd)
 
 	##### get all devices #####
-	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources?type=device" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> device_export
+	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources?type=device" | jq -r | sed 's/\"//g' | sed 's/ //g' | sed 's/{//g' | sed 's/}//g' | sed 's/,//g' | sed 's/\[//g' | sed 's/\]//g' | sed 's/id://' | sed '/tenant/d' | sed '/result/d' | sed '/total/d' | sed '/type/d' | sed '/resources/d' | sed '/./!d' | sort &> device_export
 
 	# create checklist of devices for user to choose
 	cat device_export | tr "\n" "," &> devices
@@ -2658,10 +2662,10 @@ then
 			if [[ "$rselect" == 'all' ]]
 			then
 			##### will get security cookie #####
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 			##### Get all resources in the system #####
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
+			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
 
 			##### Fix format in json payload file #####
 			sed -i '/totalrecords/d' fix_pollingInterval.json
@@ -2683,13 +2687,13 @@ then
 			sed -i 's/\"pollingInterval\": $pollprd,/"pollingInterval":$pollprd,/g' final_fixed.json
 
 			##### Create/update the pollingInterval property for each resource #####
-			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/create"
+			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
 
 			##### Inform user that command is complete and prepare to verify #####
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
 
 			##### Get all resources after change #####
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
 			##### Present updated json file of resources for verification #####
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
@@ -2698,14 +2702,14 @@ then
 			#rm -f fix_pollingInterval.json after_fix.json
 
 					# get all properties for a specific device
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> allresources.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> allresources.json
 
 					##### list all resources #####
 					dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing all resources for device $line" --textbox allresources.json 80 100
 
 			elif [[ "$rselect" == 'selecttype' ]]
 			then
-				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes
 
 				# create checklist of devices for user to choose
 				cat artypes | tr "\n" "," &> myartypes
@@ -2731,7 +2735,7 @@ then
 				while read arline
 				do
 					##### Get all selected resourceTypes in the system #####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
 
 					##### Fix format in json payload file #####
 					sed -i '/totalrecords/d' fix_pollingInterval.json
@@ -2754,13 +2758,13 @@ then
                                         sed -i '/pollingInterval/s/[[:space:]]//g' final_fixed.json
 
 					##### Create/update the pollingInterval property for each resource #####
-					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/create"
+					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
 
 					##### Inform user that command is complete and prepare to verify #####
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
 
 					##### Get all selected resourceTypes in the system #####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$arline&relationship=contain&target_index=*&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
 					##### Present updated json file of resources for verification #####
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
@@ -2775,7 +2779,7 @@ then
 				pollprd=$(cat pollprd)
 
 				##### Get resource ID's for checklist#####
-				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq | sed '/records/d' &> testme && cat testme | jq -r '.. | select(type == "object" and has("id")).id' &> rids
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq | sed '/records/d' &> testme && cat testme | jq -r '.. | select(type == "object" and has("id")).id' &> rids
 
 				# create checklist of resource ids for user to choose
 				cat rids | tr "\n" "," &> myrids
@@ -2812,7 +2816,7 @@ then
 					targetindex=$(echo "$rline" | cut -d'<' -f2 | cut -d'>' -f1)
 
 					##### Get specific resource to change polling on #####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
 
 					##### Fix format in json payload file #####
 					sed -i '/totalrecords/d' fix_pollingInterval.json
@@ -2836,13 +2840,13 @@ then
 					#sed -i "s/\"pollingInterval\": $pollprd,/\"pollingInterval\":$pollprd,/g" final_fixed.json
 
 					##### Create/update the pollingInterval property for each resource #####
-					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/create"
+					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
 
 					##### Inform user that command is complete and prepare to verify #####
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
 
 					##### Get all resources after change #####
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$targettype&relationship=contain&target_index=$targetindex&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
 					##### Present updated json file of resources for verification #####
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 20 120
@@ -2862,10 +2866,10 @@ then
 elif [[ "$taskdetail" == 'bytype' ]]
 then
 	##### create cookie #####
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	##### get resourcetypes #####
-	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/insight/service/dataset/resourceTypes | jq -r '.[].resourceType' &> resourcetypes
+	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/insight/service/dataset/resourceTypes | jq -r '.[].resourceType' &> resourcetypes
 
 	cat resourcetypes | tr "\n" "," &> rtypes
 	sed -i 's/,$//' rtypes
@@ -2888,13 +2892,13 @@ then
 	cat myselectedrtypes | tr "," "\n" &> selectedrtypes
 
 	##### create cookie #####
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	##### view selected resourceTypes #####
 	while read line
 	do
 		##### Get all selected resourceTypes in the system #####
-		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$line&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
+		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$line&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
 
 		##### Fix format in json payload file #####
 		sed -i '/totalrecords/d' fix_pollingInterval.json
@@ -2917,13 +2921,13 @@ then
 		sed -i "/pollingInterval/s/\"pollingInterval\": /\"pollingInterval\":/g" final_fixed.json
 
 		##### Create/update the pollingInterval property for each resource #####
-		curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/create"
+		curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
 
 		##### Inform user that command is complete and prepare to verify #####
 		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
 
 		##### Get all selected resourceTypes in the system #####
-		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$line&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+		curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=$line&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
 		##### Present updated json file of resources for verification #####
 		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
@@ -2939,42 +2943,43 @@ fi
 }
 discoveryprofiles()
 {
-if [[ -z "$tmpenv" ]]
-then
-        tmpenv=$(mktemp -t checklist.XXXXXXXXX)
-        trap 'rm -f "$tmpenv"' EXIT
-        trap 'exit 127' HUP STOP TERM
-        dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Environment/Lab/Cluster Selection" --radiolist "Select which openshift environment you want to work in." 0 80 0 "openshift" "Lab1 Environment" off "openshift2" "Lab2 Environment" off 2> "$tmpenv"
-        retval=$?
-	echo "$retval" > retval_tmpenv
-	retval_tmpenv=$(cat retval_tmpenv)
-        input=$(cat "$tmpenv")
-        case $retval_tmpenv in
-		1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Cancel was pressed." --msgbox "$(echo 'Cancel was pressed so script will exit.')" 5 90
-			rm -f retval_tmpenv menu* tmpenv
-                        unset retval retval_tmpenv input tmpenv
-                        return
-                        ;;
-		255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Esc was pressed." --msgbox "$(echo 'Esc Key was pressed so will return to menu.')" 5 90
-			rm -f retval_tmpenv menu* tmpenv
-			unset retval retval_tmpenv input tmpenv
-			return
-                        ;;
-		0)      tmpenv=$(echo "$input")
-                        echo "$tmpenv" > tmpenv
-			tmpenv=${tmpenv,,}    # tolower
-                        ;;
-		*)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Unauthorized Key was pressed." --msgbox "$(echo 'Unauthorized key was pressed so you will be returned to menu.')" 5 90
-                        rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
-                        unset retval retval_proftask input proftask retval_tmpenv input tmpenv
-                        return
-                        ;;
-        esac
-
-        #tmpenv=${tmpenv,,}    # tolower
-else
-        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery profile list view for $tmpenv" --msgbox "$(echo 'tempenv variable is already defined')" 0 0
-fi
+#if [[ -z "$tmpenv" ]]
+#then
+#        tmpenv=$(mktemp -t checklist.XXXXXXXXX)
+#        trap 'rm -f "$tmpenv"' EXIT
+#        trap 'exit 127' HUP STOP TERM
+#        dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Environment/Lab/Cluster Selection" --radiolist "Select which openshift environment you want to work in." 0 80 0 "openshift" "Lab1 Environment" off "openshift2" "Lab2 Environment" off 2> "$tmpenv"
+#        retval=$?
+#	echo "$retval" > retval_tmpenv
+#	retval_tmpenv=$(cat retval_tmpenv)
+#        input=$(cat "$tmpenv")
+#        case $retval_tmpenv in
+#		1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Cancel was pressed." --msgbox "$(echo 'Cancel was pressed so script will exit.')" 5 90
+#			rm -f retval_tmpenv menu* tmpenv
+#                        unset retval retval_tmpenv input tmpenv
+#                        return
+#                        ;;
+#		255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Esc was pressed." --msgbox "$(echo 'Esc Key was pressed so will return to menu.')" 5 90
+#			rm -f retval_tmpenv menu* tmpenv
+#			unset retval retval_tmpenv input tmpenv
+#			return
+#                        ;;
+#		0)      tmpenv=tncmp-dev
+#		        #tmpenv=$(echo "$input")
+#                        echo "$tmpenv" > tmpenv
+#			tmpenv=${tmpenv,,}    # tolower
+#                        ;;
+#		*)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Unauthorized Key was pressed." --msgbox "$(echo 'Unauthorized key was pressed so you will be returned to menu.')" 5 90
+#                        rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+#                        unset retval retval_proftask input proftask retval_tmpenv input tmpenv
+#                        return
+#                        ;;
+#        esac
+#
+#        #tmpenv=${tmpenv,,}    # tolower
+#else
+#        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery profile list view for $tmpenv" --msgbox "$(echo 'tempenv variable is already defined')" 0 0
+#fi
 
 if [[ -z "$proftask" ]]
 then
@@ -3015,8 +3020,8 @@ fi
 
 if [[ "$proftask" == 'view' ]]
 then
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
 	grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
 	# Create Checklist with names from each SNMP-Discovery profile name
@@ -3043,7 +3048,7 @@ then
 		while read line
 		do
 			# Get each profile chosen and save to a json file
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Viewing TNCMP SNMP-Discovery profile $line" --msgbox "$(cat $line.json | jq)" 0 0
 			rm -f $line.json	
 		done < selectedpfiles
@@ -3088,8 +3093,8 @@ then
 	case $createtask in
 
 		"copy existing")
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
 			grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
 			# Create Checklist with names from each SNMP-Discovery profile name
@@ -3116,7 +3121,7 @@ then
 				while read line
 				do
 					# Get each profile chosen and save to a json file
-					curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
+					curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
 					# Make default changes to specific fields of the copied profile
 					sed -i 's/"IS_RUNNING": ".*",/"IS_RUNNING": "Not run",/' $line.json
 					sed -i 's/"LAST_RUN": .*,/"LAST_RUN": 0,/' $line.json
@@ -3143,10 +3148,10 @@ then
 					mv $line.edited.json $newprofilename.edited.json
 
 					# Create the new SNMP-Discovery profile
-					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$newprofilename.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/create
+					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$newprofilename.edited.json https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/create
 
 					# Get New SNMP-Discovery Profile
-					curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$newprofilename" | jq &> $newprofilename.json
+					curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$newprofilename" | jq &> $newprofilename.json
 
 					# Display New SNMP-Discovery profile to user
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery Created Profile $newprofilename" --msgbox "$(cat $newprofilename.json)" 0 0
@@ -3184,17 +3189,17 @@ then
 
 			###  Define and Create cookie ###
 			mycookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
-			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$createfile https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/create
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list | jq &> output.json
+			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$createfile https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/create
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list | jq &> output.json
 			cat output.json | grep -o $profilename &> query_result
 			query_result=$(cat output.json | grep -o $profilename)
 			if [[ "$query_result" == "$profilename" ]]
 			then
 				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery Create Results" --msgbox "$(echo 'The SNMP-Discovery Profile was successfully created and it will now be fetched for you to validate.')" 5 90
 				# Get Created SNMP-Discovery Profile
-                        	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$profilename" | jq &> latest.json
+                        	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$profilename" | jq &> latest.json
                         	# Display updated SNMP-Discovery profile to user
                         	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery profile $profilename created." --msgbox "$(cat latest.json)" 0 0
 			else
@@ -3211,8 +3216,8 @@ then
 elif [[ "$proftask" == 'delete' ]]
 then
 	cookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-        curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+        curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
         grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
         # Create Checklist with names from each SNMP-Discovery profile name
@@ -3240,19 +3245,19 @@ then
                do
 
                       # Get each profile chosen and save to a json file
-                        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
+                        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
 
                         # Ask user if they really want to delete profile
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --yesno "Are you sure you want to delete profile $line?" 5 60
 			if [ $? -eq 0 ]
 			then
 				# Delete the SNMP-Discovery profile
-                        	curl -s -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$line.json -k https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/delete
-                        	#curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/update
+                        	curl -s -k --cookie mycookie -X DELETE -H "Content-Type: application/json" -d @$line.json -k https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/delete
+                        	#curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/update
 				# Confirmation of profile deletion
 				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Profile Deleted" --msgbox "$(echo "Profile $line has been deleted. Now fetching profile list to validate")" 5 90
                         	# List SNMP-Discovery profiles to user after the delete
-				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
         			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery profile list view for $tmpenv" --msgbox "$(cat output.json | jq)" 0 0
                         	rm -f $line.json output.json
 
@@ -3274,8 +3279,8 @@ then
 
 elif [[ "$proftask" == 'update' ]]
 then
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
 	grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 	
 	# Create Checklist with names from each SNMP-Discovery profile name
@@ -3303,15 +3308,15 @@ then
 		do
 
 			# Get each profile chosen and save to a json file
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$line" | jq &> $line.json
 			
 			# Allow user to edit the selected file
 			dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Edit SNMP-Discovery Profile" --editbox $line.json 0 0 2> $line.edited.json
 
 			# Update the SNMP-Discovery profile
-			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/update
+			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/update
 			# Get updated SNMP-Discovery Profile
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name="$line" | jq &> latest_$line.json
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name="$line" | jq &> latest_$line.json
 
 			# Display updated SNMP-Discovery profile to user
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery Updated profile $line" --msgbox "$(cat latest_$line.json)" 0 0
@@ -3331,8 +3336,8 @@ then
 
 elif [[ "$proftask" == 'runtest' ]]
 then
-	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
 	grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
 	# Create Checklist with names from each SNMP-Discovery profile name
@@ -3359,9 +3364,9 @@ then
 		while read line
 		do
 			# Test run on snmp profile(s)
-			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?test-profile=$line
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?test-profile=$line
 
-			 mystatus=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
+			 mystatus=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
 
 			# Inform the customer of the status of snmp-discovery profile run
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery profile Test run" --msgbox "$(echo "The snmp-discovery test run status for profile $line is $mystatus")" 10 100
@@ -3387,7 +3392,7 @@ then
 			while true
 			do
 				# Make the API call
-				response=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
+				response=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
 				# Extract the status from the response
 				status=$(echo "$response")
 
@@ -3395,7 +3400,7 @@ then
 				if [ "$status" == "$desired_status" ]
 				then
 					# Get log for selected profile
-					curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message
+					curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery log for profile $line test run" --msgbox "$(cat message | base64 --decode)" 0 0
 					break
 				fi
@@ -3428,8 +3433,8 @@ elif [[ "$proftask" == 'run' ]]
 then
 
 	cookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
         grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
         # Create Checklist with names from each SNMP-Discovery profile name
@@ -3456,9 +3461,9 @@ then
 		while read line
 		do
 			# Run profile 
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?run-profile=$line"
+			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?run-profile=$line"
 
-			mystatus=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
+			mystatus=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
 
 			# Inform the customer of the status of snmp-discovery profile run 
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery profile run" --msgbox "$(echo "The snmp-discovery status for profile $line is $mystatus")" 0 0
@@ -3484,7 +3489,7 @@ then
 			while true
 			do
 				# Make the API call
-				response=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
+				response=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
 				# Extract the status from the response
 				status=$(echo "$response") 
 
@@ -3492,7 +3497,7 @@ then
 				if [ "$status" == "$desired_status" ]
 				then
 					# Get log for selected profile
-					curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message
+					curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message
 
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery log for profile $line" --msgbox "$(cat message | base64 --decode)" 0 0
 					break
@@ -3526,8 +3531,8 @@ then
 elif [[ "$proftask" == 'stop' ]]
 then
 	cookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
         grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
         # Create Checklist with names from each SNMP-Discovery profile name
@@ -3553,7 +3558,7 @@ then
                 selectedpfilescount=$(cat selectedpfiles|wc -l)
                 while read line
                 do
-                        mystatus=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
+                        mystatus=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
 			 # Check if the profile is not running and if not check the selectedpfilescount to go back to menu or continue 
 			if [ "$mystatus" == "Completed" ]
 			then
@@ -3570,7 +3575,7 @@ then
 			fi
 
                         # Stop profile
-                        curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?stop-profile=$line"
+                        curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?stop-profile=$line"
 
                         # Inform the customer that the log will be returned when the discovery is stopped
                         dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery Stopping profile $line" --msgbox "$(echo "The profile $line is being stopped and the log will be returned after the selected profile has been stopped.\nClick "OK" and Please be patient.")" 5 90
@@ -3590,7 +3595,7 @@ then
                         while true
                         do
                                 # Make the API call
-                                response=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
+                                response=$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list?name=$line | jq |grep IS_RUNNING|cut -d'"' -f4)
                                 # Extract the status from the response
                                 status=$(echo "$response")
 
@@ -3600,7 +3605,7 @@ then
 					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery stopped profile run" --msgbox "$(echo "The snmp-discovery for profile $line has been stopped\nand the log will be returned so you can validate")" 5 90
 
                                         # Get log for selected profile
-                                        curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message
+                                        curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message
 
                                         dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery log for profile $line" --msgbox "$(cat message | base64 --decode)" 0 0
                                         break
@@ -3631,7 +3636,7 @@ then
         rm -f menu*
         return
 
-	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/discovery?stop-profile="profile_name"	
+	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?stop-profile="profile_name"	
 elif [[ "$proftask" == 'import' ]]
 then
 	let i=0 # define counting variable
@@ -3655,7 +3660,7 @@ then
 
 	###  Define and Create cookie ###
 	mycookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-	curl -s -k --cookie-jar $mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	curl -s -k --cookie-jar $mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	rm -f proftask tmpenv createfile tester
         unset proftask tmpenv createfile profilename
@@ -3665,8 +3670,8 @@ then
 elif [[ "$proftask" == 'log' ]]
 then
 	cookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
-        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/profile/list| jq &> output.json
         grep NAME\" output.json | cut -d'"' -f4 &> profile_names
 
         # Create Checklist with names from each SNMP-Discovery profile name
@@ -3694,7 +3699,7 @@ then
                 do
 
                         # Get log for selected profile
-			curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.openshift.dfw.accuoss.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message 
+			curl -s -k --cookie mycookie -H 'Authorization: Basic Base64EncodedKey' "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/snmp-discovery/rest/discovery?logs=$line" |cut -d'{' -f2 | sed 's/^/{/' | jq |grep msg|cut -d'"' -f4 &> message 
 			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "TNCMP SNMP-Discovery log for profile $line" --msgbox "$(cat message | base64 --decode)" 0 0
 
                         rm -f $line.json
@@ -3751,11 +3756,10 @@ fi
 
 ################# Get tech packs by name and process into check list for the user 
 
-	cookie="/root/manual_upi/tncmp_cli_admin/mycookie"
-        curl -s -k --cookie-jar $cookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+        curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&Login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
 	# Get all tech packs by name
-	curl -s -k --cookie mycookie --request GET --url http://pack-service-tncmp.apps.$tmpenv.dfw.accuoss.com/v1/Default/storage/pack-jars | jq -r '.[].packId' &> packnames
+	curl -s -k --cookie mycookie --request GET --url http://pack-service-tncmp.apps.tncmp-dev.ftr.com/v1/Default/storage/pack-jars | jq -r '.[].packId' &> packnames
 
         # Create Checklist with names from each SNMP-Discovery profile name
         cat packnames | tr "\n" "," &> prepfiles
@@ -3783,7 +3787,7 @@ fi
 		do
 			packname=$line
 			# Get all model files from tech pack(s) and save to a json file
-			curl -s -k --cookie mycookie --request GET --url http://pack-service-tncmp.apps.$tmpenv.dfw.accuoss.com/v1/Default/storage/pack-contents/$packname | jq 'map( select(.fileType | contains("model") ) )' &> packmodels
+			curl -s -k --cookie mycookie --request GET --url http://pack-service-tncmp.apps.tncmp-dev.ftr.com/v1/Default/storage/pack-contents/$packname | jq 'map( select(.fileType | contains("model") ) )' &> packmodels
 			# Check if only brackets are returned and delete them 
 			sed -i 's/\[\]//g' packmodels
 			checkpack=$(cat packmodels)
@@ -3819,7 +3823,7 @@ fi
 						getfileid=$(grep -B2 "$line" packmodels | grep fileId | cut -d'"' -f4)	
 
 						# Show contents of the model file and define the modeltype					
-						curl -s -k --cookie mycookie --request GET --url http://pack-service-tncmp.apps.$tmpenv.dfw.accuoss.com/v1/Default/storage/pack-contents/$packname/$getfileid | jq -r '.content.textFileContent' &> output.json
+						curl -s -k --cookie mycookie --request GET --url http://pack-service-tncmp.apps.tncmp-dev.ftr.com/v1/Default/storage/pack-contents/$packname/$getfileid | jq -r '.content.textFileContent' &> output.json
 						dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Viewing $line which is model type: $modelfiletype" --msgbox "$(cat output.json)" 0 0
 
 					done < selectedmodelfiles
@@ -3840,7 +3844,7 @@ fi
 
 		done < selectedpfiles
 
-		rm -f tmpenv selectedpfiles myselectedpfiles prepfiles packmodels modelfiles premodelfiles myselectedmodelfiles selectedmodelfiles output.json   
+		rm -f tmpenv selectedpfiles myselectedpfiles prepfiles packmodels modelfiles premodelfiles myselectedmodelfiles selectedmodelfiles output.json proftask tmpenv selectedpfiles myselectedpfiles profile_names  
 		unset tmpenv prepfiles premodelfiles modelfiletype getfileid packname
 		rm -f menu*
 		return
@@ -3849,7 +3853,7 @@ deletetempfiles()
 {
     rm -f *.$$
     rm -f menuchoices*
-    #rm -f tmpenv selectedpfiles myselectedpfiles prepfiles packmodels modelfiles premodelfiles myselectedmodelfiles selectedmodelfiles output.json
+    rm -f tmpenv selectedpfiles myselectedpfiles prepfiles packmodels modelfiles premodelfiles myselectedmodelfiles selectedmodelfiles output.json
     #unset tmpenv prepfiles premodelfiles modelfiletype getfileid packname
 }
 ##############################################################################

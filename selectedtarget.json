@@ -1,0 +1,17 @@
+{
+  "resourceTypes": [],
+  "relationshipTypes": [
+    {
+      "source": "ResourcesGroup",
+      "target": "snmpAgent",
+      "name": "groupOf",
+      "cardinality": "one-to-many"
+    },
+    {
+      "source": "device",
+      "target": "snmpAgent",
+      "name": "contain",
+      "cardinality": "one-to-many"
+    }
+  ]
+}
