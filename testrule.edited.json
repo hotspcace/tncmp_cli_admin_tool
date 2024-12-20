@@ -1,0 +1,7 @@
+  {
+    "category": 1,
+    "enabled": true,
+    "name": "testrule",
+    "target": "omnibus_target",
+    "target_group": ""
+  }

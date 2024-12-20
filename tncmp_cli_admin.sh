@@ -1439,6 +1439,823 @@ rm -f tmpenv menu*
 unset retval retval_proftask input proftask retval_tmpenv input tmpenv
 return
 }
+alarmmanagement()
+{
+if [[ -z "$tmpenv" ]]
+then
+        tmpenv=$(mktemp -t checklist.XXXXXXXXX)
+        trap 'rm -f "$tmpenv"' exit
+        trap 'exit 127' hup stop term
+        dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "environment/lab/cluster selection" --radiolist "select which openshift environment you want to work with alarms on." 0 80 0 "openshift" "lab1 environment" off "openshift2" "lab2 environment" off 2> "$tmpenv"
+        retval=$?
+        echo "$retval" > retval_tmpenv
+        retval_tmpenv=$(cat retval_tmpenv)
+        input=$(cat "$tmpenv")
+        case $retval_tmpenv in
+		0)      tmpenv=$(echo "$input")
+                        echo "$tmpenv" > tmpenv
+                        tmpenv=${tmpenv,,}    # tolower
+                        ;;
+                1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 5 50
+                        rm -f retval_tmpenv menu* tmpenv
+                        unset retval retval_tmpenv input tmpenv
+                        return
+                        ;;
+                255)    dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 50
+                        rm -f retval_tmpenv menu* tmpenv
+                        unset retval retval_tmpenv input tmpenv
+                        return
+                        ;;
+                *)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "unauthorized key was pressed." --msgbox "$(echo 'unauthorized key was pressed so you will be returned to menu.')" 5 60
+                        rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+                        unset retval retval_proftask input proftask retval_tmpenv input tmpenv
+                        return
+                        ;;
+        esac
+
+        #tmpenv=${tmpenv,,}    # tolower
+else
+        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp variable exists" --msgbox "$(echo 'tempenv variable is already defined')" 0 0
+        rm -f tmpenv
+        unset tmpenv
+        return
+fi
+
+if [[ -z "$proftask" ]]
+then
+	proftask=$(mktemp -t checklist.XXXXXXXXX)
+	trap 'rm -f "$proftask"' exit
+	trap 'exit 127' hup stop term
+	dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "task selection" --clear --radiolist "select the task for working with Alarms." 0 80 0 "list_alarm_rules" "List all alarm rules" off "create_alarm_rules" "Create alarm rules" off "delete_alarm_rules" "Delete alarm rules" off "update_alarm_rules" "Update alarm rules" off "import_alarm_rules" "Import alarm rules" off "enable_disable_alarm_rules" "Enable or Disable alarm rules" off "list_alarm_schedules" "List all alarm time schedules" off "list_alarm_targets" "List all alarm targets" off "list_alarm_target_groups" "List all alarm target groups" off "create_alarm_schedules" "Create time schedules" off "create_alarm_targets" "Create alarm targets" off "create_alarm_target_groups" "Create alarm target groups" off "delete_alarm_schedules" "Delete time schedules" off "delete_alarm_targets" "Dlete alarm targets" off "delete_alarm_target_groups" "Delete alarm target groups" off "update_alarm_schedules" "Update alarm time schedules" off "update_alarm_targets" "Update alarm targets" off "update_alarm_target_groups" "Update alarm target groups" off "import_alarm_schedules" "Import time schedules" off "import_alarm_targets" "Import alarm targets" off "import_alarm_target_groups" "Import alarm target groups" off 2> "$proftask"
+	retval=$?
+	echo "$retval" > retval_proftask
+	retval_proftask=$(cat retval_proftask)
+	input=$(cat "$proftask")
+	case $retval_proftask in
+		0)      proftask=$(echo "$input")
+			echo "$proftask" > proftask
+			proftask=${proftask,,}    # tolower
+			;;
+		1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 5 50
+			rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+			unset retval retval_proftask input proftask retval_tmpenv input tmpenv
+			return
+			;;
+		255)     dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 50
+			rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+			unset retval retval_proftask input proftask retval_tmpenv input tmpenv
+			return
+			;;
+		*)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "unauthorized key was pressed." --msgbox "$(echo 'unauthorized key was pressed so you will be returned to menu.')" 5 60
+			rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+			unset retval retval_proftask input proftask retval_tmpenv tmpenv
+			return
+			;;
+	esac
+
+else
+	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp variable already exists" --msgbox "$(echo 'proftask variable is already defined')" 0 0
+	rm -f proftask
+	unset proftask
+	return
+fi
+
+##### get cookie #####
+curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+
+if [[ "$proftask" == 'list_alarm_rules' ]]
+then
+
+	curl -s -k --cookie mycookie2 "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/alarm/rule/list" | jq -r '.. | select(type == "object" and has("name")).name' &> alarm_rules
+	#sed -i 's/ /_/g' threshnames
+
+	# create checklist with names from all thresholds 
+	cat alarm_rules | tr "\n" "," &> pretfiles 
+	sed -i 's/,$//' prepfiles
+	pretfiles=$(cat pretfiles)
+
+	MENU_OPTIONS=
+	COUNT=0
+
+	IFS="," read -a MYTYPES <<< $pretfiles
+	for i in "${MYTYPES[@]}"
+	do
+		COUNT=$[COUNT+1]
+		MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+	done
+	cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the alarm rule(s) would like to view:" 0 120 0)
+	options=(${MENU_OPTIONS})
+	choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+	>myselectedtfiles
+	echo "$choices" >> myselectedtfiles
+	cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+	#selectedpfiles=$(cat selectedpfiles)
+	while read line
+	do
+		curl -s -k --cookie mycookie2 "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/alarm/rule/list?name=$line" | jq &> alarm_rule.json
+		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Alarm rule for $line" --msgbox "$(cat alarm_rule.json | jq)" 0 0
+	done < selectedtfiles
+
+	rm -f retval_tmpenv tmpenv retval_proftask proftask threshnames pretfiles myselectedtfiles selectedtfiles alarm_rule.json
+	unset proftask tmpenv pretfiles retval_tmpenv retval_proftask 
+	rm -f menu*
+	return
+
+elif [[ "$proftask" == 'create_alarm_rules' ]]
+then
+        if [[ -z "$createtask" ]]
+        then
+                createtask=$(mktemp -t checklist.XXXXXXXXX)
+                trap 'rm -f "$createtask"' exit
+                trap 'exit 127' hup stop term
+                dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "create task selection" --clear --radiolist "select how you want to create new alarm rule." 0 0 0 "copy existing" "select existing alarm rule to copy and edit" off "create from file" "create new alarm rule from json formated file" off 2> "$createtask"
+                retval=$?
+                input=$(cat "$createtask")
+                case $retval in
+                        0)      createtask=$(echo "$input")
+                                echo "$createtask" > createtask
+                                ;;
+                        1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 0 0
+                                return
+                                ;;
+                        255)     dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 0 0
+                                return
+                                ;;
+                esac
+
+                createtask=${createtask,,}    # tolower
+        else
+                echo "audtask variable is already defined"
+        fi
+
+        case $createtask in
+
+                "copy existing")
+                        ##### get cookie #####
+                        #curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+			curl -s -k --cookie mycookie2 "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/alarm/rule/list" | jq -r '.. | select(type == "object" and has("name")).name' &> alarm_rules
+                        ##### create checklist with names from all thresholds #####
+                        cat alarm_rules | tr "\n" "," &> pretfiles
+                        sed -i 's/,$//' prepfiles
+                        pretfiles=$(cat pretfiles)
+
+                        MENU_OPTIONS=
+                        COUNT=0
+
+                        IFS="," read -a MYTYPES <<< $pretfiles
+                        for i in "${MYTYPES[@]}"
+                        do
+                                COUNT=$[COUNT+1]
+                                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+                        done
+                        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the alarm rule(s) you would like to copy:" 0 120 0)
+                        options=(${MENU_OPTIONS})
+                        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+                        >myselectedtfiles
+                        echo "$choices" >> myselectedtfiles
+                        cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+                        while read line
+                        do
+
+                                # get each selected threshold and save to a json file
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/alarm/rule/list?name=$line" | jq &> $line.json
+#[
+#  {
+#    "category": 1,
+#    "enabled": true,
+#    "name": "omnibus_alarm_rule",
+#    "target": "omnibus_target",
+#    "target_group": ""
+#  }
+#]
+				curl -s -k --cookie mycookie2 'https://dashboard-tncmp.apps.openshift2.dfw.accuoss.com/threshold/rest/alarm/target/list' | jq -r '.. | select(type == "object" and has("name")).name' &> alarm_targets
+				##### create checklist with names from all thresholds #####
+				cat alarm_rules | tr "\n" "," &> preatarget
+				sed -i 's/,$//' preatarget
+				preatarget=$(cat preatarget)
+
+				MENU_OPTIONS=
+				COUNT=0
+
+				IFS="," read -a MYTYPES <<< $preatarget
+				for i in "${MYTYPES[@]}"
+				do
+					COUNT=$[COUNT+1]
+					MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+				done
+				cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --radiolist "select the alarm target you would like to use for this alarm rule:" 0 120 0)
+				options=(${MENU_OPTIONS})
+				choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+				>myselectedatarget
+				echo "$choices" >> myselectedatarget
+				cat myselectedatarget|tr "," "\n" &> selectedatarget
+				selectedatarget=$(cat selectedatarget)
+
+				if [[ -z "$eord" ]]
+				then
+					eord=$(mktemp -t checklist.XXXXXXXXX)
+					trap 'rm -f "$eord"' exit
+					trap 'exit 127' hup stop term
+					dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Enable selection" --clear --radiolist "Do you want the alarm rule Enabled or Disabled?" 0 0 0 "enabled" "Enable alarm rule after it is created" off "disabled" "Disable alarm rule after it is created" off 2> "$eord"
+					retval=$?
+					input=$(cat "$eord")
+					case $retval in
+						0)      eord=$(echo "$input")
+							echo "$eord" > eord
+							eord=$(cat eord)
+							if [[ "$eord" == "enabled" ]]
+							then
+								eord=true	
+							elif [[ "$eord" == "disabled" ]]
+                                                        then
+                                                                eord=false
+							else
+								dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Variable Undefined" --msgbox "$(echo 'eord variable is undefined, returning to menu.')" 0 0
+                                                        	return
+							fi
+							;;
+						1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 0 0
+							return
+							;;
+						255)     dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 0 0
+							return
+							;;
+					esac
+
+					eord=${eord,,}    # tolower
+				else
+					echo "audtask variable is already defined"
+				fi
+
+                                # make default changes to specific fields of the copied threshold
+                                sed -i "s/\"enabled\": ".*",/\"enabled\": $eord,/" $line.json
+                               	sed -i '/\[/d' $line.json
+                               	sed -i '/\]/d' $line.json
+                               #sed -i 's/"status": ".*",/"status": "",/' $line.json
+                               #sed -i 's/"failed_list": ".*",/"failed_list": "",/' $line.json
+
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Editing Alarm Rule" --msgbox "$(echo 'You will be editing the alarm rule next and the name in this new file cannot be the same as the one you are copying\nThe name of the alarm rule must be unique or\nthis task will fail. Also you will needand make sure the names are different.')" 10 90
+
+                                # allow user to edit the selected file
+                                dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "edit alarm rule" --editbox $line.json 0 0 2> $line.edited.json
+
+                                # get threshold name from copied file to make sure the new file does not use the same name
+                                origarulename=$(cat $line.json | grep -i name | cut -d'"' -f4)
+                                newarulename=$(cat $line.edited.json | grep -i name | cut -d'"' -f4)
+
+                                # check to make sure the threshold names are different
+                                if [ "$origarulename" == "$newarulename" ]
+                                then
+                                        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold name check" --msgbox "$(echo 'The threshold name in your new file cannot be the same as the old threshold name\nyou will either need to use the update function of this tool or\nyou will need to repeat this task and make sure the names are different.\nyou will now be returned to the main menu.')" 10 90
+                                        #rm -f proftask tmpenv selectedtfiles myselectedtfiles pretfiles threshnames output.json retval_proftask $line.json $line.edited.json
+                                        #unset proftask tmpenv prepfiles origthreshname newthreshname
+                                        return
+                                fi
+
+                                # rename file with new profile name to be safe
+                                mv $line.edited.json $newarulename.edited.json
+
+                                # create the new alarm rule 
+                                curl -s -k --cookie mycookie -X POST -H "content-type: application/json" -d @$newarulename.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/alarm/rule/create
+
+                                # get new threshold
+                                curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$newarulename" | jq &> $newarulename.json
+
+                                # display new snmp-discovery profile to user
+                                dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp alarm rule created ($newarulename)" --msgbox "$(cat $newthreshname.json)" 0 0
+                                #rm -f $newarulename.json $line.json $line.edited.json $newarulename.edited.json
+                                unset newarulename origarulename
+                        done < selectedtfiles
+
+                        rm -f proftask tmpenv selectedatarget myselectedatarget preatarget alarm_targets output.json retval_proftask
+                        unset proftask tmpenv preatarget eord 
+                        rm -f menu*
+                        return
+                ;;
+                "create from file")
+                #       let i=0 # define counting variable
+                #       w=() # define working array
+                #       while read -r line; do # process file by file
+                #               let i=$i+1
+                #               w+=($i "$line")
+                #       #done < <( ls -1 . )
+                #       done < <( find . -maxdepth 1 -type f -name '*.json' )
+                #       file=$(dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "select json formatted file to create threshold" --menu "chose one" 24 80 17 "${w[@]}" 3>&2 2>&1 1>&3) # show dialog and store output
+                #       result=$?
+                #       clear
+                #       if [ $result -eq 0 ]; then # exit with ok
+                #               echo "${w[$((file * 2 -1))]}" &> createfile
+                #               sed -i 's/.\///g' createfile
+                #       else
+                #               dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "hit escape" --msgbox "$(echo 'you hit escape key so you will exit be returned to the menu')" 0 0
+                #                return
+                #       fi
+                #       createfile=$(cat )
+                #       profilename=$(cat $createfile|grep name\"|cut -d'"' -f4)
+                #       echo "$profilename" > tester
+#
+                        ###  define and create cookie ###
+#                       curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+
+#                       curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$createfile https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/create
+#                       curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+#                       cat output.json | grep -o $profilename &> query_result
+#                       query_result=$(cat output.json | grep -o $profilename)
+#                       if [[ "$query_result" == "$profilename" ]]
+#                       then
+#                               dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery create results" --msgbox "$(echo 'the snmp-discovery profile was successfully created and it will now be fetched for you to validate.')" 5 90
+#                               # get created snmp-discovery profile
+#                               curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$profilename" | jq &> latest.json
+#                               # display updated snmp-discovery profile to user
+#                               dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery profile $profilename created." --msgbox "$(cat latest.json)" 0 0
+#                       else
+#                               dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery create results" --msgbox "$(echo 'the snmp-discovery profile was not created. please check what went wrong and try again')" 0 0
+#                       fi
+                ;;
+        esac
+#       rm -f proftask tmpenv createfile createtask query_result tester latest.json output.json
+#        unset proftask tmpenv createfile createtask file result profilename query_result
+#        rm -f menu*
+#        return
+
+
+elif [[ "$proftask" == 'list_alarm_schedules' ]]
+then
+        # create checklist with names from all thresholds
+        cat threshnames | tr "\n" "," &> pretfiles
+        sed -i 's/,$//' prepfiles
+        pretfiles=$(cat pretfiles)
+
+        MENU_OPTIONS=
+        COUNT=0
+
+        IFS="," read -a MYTYPES <<< $pretfiles
+        for i in "${MYTYPES[@]}"
+        do
+                COUNT=$[COUNT+1]
+                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+        done
+        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) would like to view:" 0 120 0)
+        options=(${MENU_OPTIONS})
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+        >myselectedtfiles
+        echo "$choices" >> myselectedtfiles
+        cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+        #selectedpfiles=$(cat selectedpfiles)
+        while read line
+        do
+                curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> thresh.json
+                dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold configuration for $line" --msgbox "$(cat thresh.json | jq)" 0 0
+        done < selectedtfiles
+
+        rm -f retval_tmpenv tmpenv retval_proftask proftask threshnames pretfiles myselectedtfiles selectedtfiles thresh.json
+        unset proftask tmpenv pretfiles retval_tmpenv retval_proftask
+        rm -f menu*
+        return
+
+elif [[ "$proftask" == 'list_alarm_targets' ]]
+then
+        # create checklist with names from all thresholds
+        cat threshnames | tr "\n" "," &> pretfiles
+        sed -i 's/,$//' prepfiles
+        pretfiles=$(cat pretfiles)
+
+        MENU_OPTIONS=
+        COUNT=0
+
+        IFS="," read -a MYTYPES <<< $pretfiles
+        for i in "${MYTYPES[@]}"
+        do
+                COUNT=$[COUNT+1]
+                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+        done
+        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) would like to view:" 0 120 0)
+        options=(${MENU_OPTIONS})
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+        >myselectedtfiles
+        echo "$choices" >> myselectedtfiles
+        cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+        #selectedpfiles=$(cat selectedpfiles)
+        while read line
+        do
+                curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> thresh.json
+                dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold configuration for $line" --msgbox "$(cat thresh.json | jq)" 0 0
+        done < selectedtfiles
+
+        rm -f retval_tmpenv tmpenv retval_proftask proftask threshnames pretfiles myselectedtfiles selectedtfiles thresh.json
+        unset proftask tmpenv pretfiles retval_tmpenv retval_proftask
+        rm -f menu*
+        return
+
+elif [[ "$proftask" == 'list_alarm_target_groups' ]]
+then
+        # create checklist with names from all thresholds
+        cat threshnames | tr "\n" "," &> pretfiles
+        sed -i 's/,$//' prepfiles
+        pretfiles=$(cat pretfiles)
+
+        MENU_OPTIONS=
+        COUNT=0
+
+        IFS="," read -a MYTYPES <<< $pretfiles
+        for i in "${MYTYPES[@]}"
+        do
+                COUNT=$[COUNT+1]
+                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+        done
+        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) would like to view:" 0 120 0)
+        options=(${MENU_OPTIONS})
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+        >myselectedtfiles
+        echo "$choices" >> myselectedtfiles
+        cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+        #selectedpfiles=$(cat selectedpfiles)
+        while read line
+        do
+                curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> thresh.json
+                dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold configuration for $line" --msgbox "$(cat thresh.json | jq)" 0 0
+        done < selectedtfiles
+
+        rm -f retval_tmpenv tmpenv retval_proftask proftask threshnames pretfiles myselectedtfiles selectedtfiles thresh.json
+        unset proftask tmpenv pretfiles retval_tmpenv retval_proftask
+        rm -f menu*
+        return
+
+
+
+elif [[ "$proftask" == 'create' ]]
+then
+	if [[ -z "$createtask" ]]
+	then
+		createtask=$(mktemp -t checklist.XXXXXXXXX)
+		trap 'rm -f "$createtask"' exit
+		trap 'exit 127' hup stop term
+		dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "create task selection" --clear --radiolist "select how you want to create new theshold." 0 0 0 "copy existing" "select existing threshold to copy and edit" off "create from file" "create new threshold from json formated file" off 2> "$createtask"
+		retval=$?
+		input=$(cat "$createtask")
+		case $retval in
+			0)      createtask=$(echo "$input")
+				echo "$createtask" > createtask
+				;;
+			1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 0 0
+                        	return
+                        	;;
+                	255)     dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 0 0
+                        	return
+                        	;;
+		esac
+
+		createtask=${createtask,,}    # tolower
+	else
+		echo "audtask variable is already defined"
+	fi
+
+	case $createtask in
+
+		"copy existing")
+			##### get cookie #####
+			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name' &> threshnames
+			sed -i 's/ /_/g' threshnames
+
+			##### create checklist with names from all thresholds #####
+			cat threshnames | tr "\n" "," &> pretfiles
+			sed -i 's/,$//' prepfiles
+			pretfiles=$(cat pretfiles)
+
+			MENU_OPTIONS=
+			COUNT=0
+
+			IFS="," read -a MYTYPES <<< $pretfiles
+			for i in "${MYTYPES[@]}"
+			do
+				COUNT=$[COUNT+1]
+				MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+			done
+			cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) you would like to copy:" 0 120 0)
+			options=(${MENU_OPTIONS})
+			choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+			>myselectedtfiles
+			echo "$choices" >> myselectedtfiles
+			cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+			while read line
+			do
+
+				# get each selected threshold and save to a json file
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> $line.json
+
+				# make default changes to specific fields of the copied threshold 
+				sed -i 's/"creation_time": ".*",/"creation_time": 0,/' $line.json
+				sed -i 's/"update_time": .*,/"update_time": 0,/' $line.json
+			#	sed -i 's/"status": ".*",/"status": "",/' $line.json
+			#	sed -i 's/"failed_list": ".*",/"failed_list": "",/' $line.json
+				
+				# get threshold name from copied file to make sure the new file does not use the same name
+                                origthreshname=$(cat $line.json | grep -i name | cut -d'"' -f4)
+                                newthreshname=$(cat $line.edited.json | grep -i name | cut -d'"' -f4)
+
+				# allow user to edit the selected file
+				dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "edit threshold" --editbox $line.json 0 0 2> $line.edited.json
+
+				# get threshold name from copied file to make sure the new file does not use the same name
+				origthreshname=$(cat $line.json | grep -i name | cut -d'"' -f4)
+				newthreshname=$(cat $line.edited.json | grep -i name | cut -d'"' -f4)
+
+				# check to make sure the threshold names are different
+				if [ "$origthreshname" == "$newthreshname" ]
+				then
+					dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold name check" --msgbox "$(echo 'the threshold name in your new file cannot be the same as the old threshold name\nyou will either need to use the update function of this tool or\nyou will need to repeat this task and make sure the names are different.\nyou will now be returned to the main menu.')" 10 90
+					rm -f proftask tmpenv selectedtfiles myselectedtfiles pretfiles threshnames output.json retval_proftask $line.json $line.edited.json
+					unset proftask tmpenv prepfiles origthreshname newthreshname
+					return
+				fi
+
+				# rename file with new profile name to be safe
+				mv $line.edited.json $newthreshname.edited.json
+
+				# create the new threshold
+				curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$newthreshname.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/create
+
+				# get new threshold 
+				curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$newthreshname" | jq &> $newthreshname.json
+
+				# display new snmp-discovery profile to user
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp threshold created ($newthreshname)" --msgbox "$(cat $newthreshname.json)" 0 0
+				rm -f $newthreshname.json $line.json $line.edited.json $newthreshname.edited.json
+				unset newthreshname origthreshname
+			done < selectedtfiles
+
+			rm -f proftask tmpenv selectedtfiles myselectedtfiles pretfiles threshnames output.json retval_proftask
+			unset proftask tmpenv pretfiles createtask
+			rm -f menu*
+			return
+				
+		;;
+		"create from file")
+		#	let i=0 # define counting variable
+		#	w=() # define working array
+		#	while read -r line; do # process file by file
+		#		let i=$i+1
+		#		w+=($i "$line")
+		#	#done < <( ls -1 . )
+		#	done < <( find . -maxdepth 1 -type f -name '*.json' )
+		#	file=$(dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "select json formatted file to create threshold" --menu "chose one" 24 80 17 "${w[@]}" 3>&2 2>&1 1>&3) # show dialog and store output
+		#	result=$?
+		#	clear
+		#	if [ $result -eq 0 ]; then # exit with ok
+		#		echo "${w[$((file * 2 -1))]}" &> createfile 
+		#		sed -i 's/.\///g' createfile
+		#	else 
+		#		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "hit escape" --msgbox "$(echo 'you hit escape key so you will exit be returned to the menu')" 0 0
+                #                return
+		#	fi
+		#	createfile=$(cat )	
+		#	profilename=$(cat $createfile|grep name\"|cut -d'"' -f4)
+		#	echo "$profilename" > tester
+#
+			###  define and create cookie ###
+#			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+
+#			curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$createfile https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/create
+#			curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/snmp-discovery/rest/profile/list| jq &> output.json
+#			cat output.json | grep -o $profilename &> query_result
+#			query_result=$(cat output.json | grep -o $profilename)
+#			if [[ "$query_result" == "$profilename" ]]
+#			then
+#				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery create results" --msgbox "$(echo 'the snmp-discovery profile was successfully created and it will now be fetched for you to validate.')" 5 90
+#				# get created snmp-discovery profile
+#                        	curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$profilename" | jq &> latest.json
+#                        	# display updated snmp-discovery profile to user
+#                        	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery profile $profilename created." --msgbox "$(cat latest.json)" 0 0
+#			else
+#				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp snmp-discovery create results" --msgbox "$(echo 'the snmp-discovery profile was not created. please check what went wrong and try again')" 0 0
+#			fi
+		;;
+	esac	
+#	rm -f proftask tmpenv createfile createtask query_result tester latest.json output.json
+#        unset proftask tmpenv createfile createtask file result profilename query_result
+#        rm -f menu*
+#        return
+
+
+elif [[ "$proftask" == 'delete' ]]
+then
+	# create checklist with names from all thresholds
+        cat threshnames | tr "\n" "," &> pretfiles
+        sed -i 's/,$//' prepfiles
+        pretfiles=$(cat pretfiles)
+
+        MENU_OPTIONS=
+        COUNT=0
+
+        IFS="," read -a MYTYPES <<< $pretfiles
+        for i in "${MYTYPES[@]}"
+        do
+                COUNT=$[COUNT+1]
+                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+        done
+        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) would like to delete:" 0 120 0)
+        options=(${MENU_OPTIONS})
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+        >myselectedtfiles
+        echo "$choices" >> myselectedtfiles
+        cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+        #selectedpfiles=$(cat selectedpfiles)
+        while read line
+        do
+		# ask user if they want to backup the threshold in case they want to recover it later
+		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --yesno "do you want to backup this threshold ($line) for recovery later?" 5 90
+                if [ $? -eq 0 ]
+                then
+			# make backup directory if it does not exist
+			mkdir -p backup_thresholds
+
+			# get the current date in mm_dd_yyyy format
+			date_formatted=$(date +"%m_%d_%y")
+
+			# create a filename with the formatted date
+			filename=$(echo "${line}.${date_formatted}.json")
+			>backup_thresholds/$filename
+
+			# get selected threshold chosen and save to a json file
+                        curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name=$line | jq &> $line.json
+
+			# copy the threshold to backup directory in json format for rcovery later if needed
+			cat $line.json | jq >> backup_thresholds/$filename
+
+                        # confirmation of threshold backup 
+                        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold backup complete for $filename" --msgbox "$(ls -ltr backup_thresholds)" 5 90
+
+			# ask user if they really want to delete the threshold
+			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --yesno "are you sure you want to delete threshold $line?" 5 60
+			if [ $? -eq 0 ]
+			then
+				# delete the selected threshold
+				curl -s -k --cookie mycookie -x delete -h "content-type: application/json" -d @$line.json -k https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/delete
+
+				# confirmation of threshold deletion
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "threshold deleted" --msgbox "$(echo "threshold has been deleted. now fetching threshold list to validate")" 5 90
+
+				# verify deletion to user after the threshold(s) are deleted #####
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "current threshold list for $tmpenv" --msgbox "$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name')" 0 0
+
+				rm -f $line.json output.json
+
+			elif [ $? -eq 1 ]
+			then
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "hit no" --msgbox "$(echo "you hit no so profile $line will not be deleted")" 0 0
+				continue
+			else
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "hit escape" --msgbox "$(echo 'you hit escape key so you will exit be returned to the menu')" 0 0
+				return
+			fi
+
+
+                elif [ $? -eq 1 ]
+                then
+                        continue
+                else
+                        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "hit escape" --msgbox "$(echo 'you hit escape key so you will exit be returned to the menu')" 0 0
+                        return
+                fi
+
+       done < selectedtfiles
+
+       rm -f retval_tmpenv tmpenv retval_proftask proftask threshnames pretfiles myselectedtfiles selectedtfiles thresh.json
+       unset proftask tmpenv pretfiles retval_tmpenv retval_proftask
+       rm -f menu*
+       return
+
+
+elif [[ "$proftask" == 'update' ]]
+then
+	curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+	# create checklist with names from all thresholds
+        cat threshnames | tr "\n" "," &> pretfiles
+        sed -i 's/,$//' prepfiles
+        pretfiles=$(cat pretfiles)
+
+        MENU_OPTIONS=
+        COUNT=0
+
+        IFS="," read -a MYTYPES <<< $pretfiles
+        for i in "${MYTYPES[@]}"
+        do
+                COUNT=$[COUNT+1]
+                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+        done
+        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) would like to view:" 0 120 0)
+        options=(${MENU_OPTIONS})
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+        >myselectedtfiles
+        echo "$choices" >> myselectedtfiles
+        cat myselectedtfiles|tr "," "\n" &> selectedtfiles
+        while read line
+        do
+		# get each selected threshold and save to a json file
+		curl -s -k --cookie mycookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$line" | jq &> $line.json
+
+		# allow user to edit the selected file
+		dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "edit threshold" --editbox $line.json 0 0 2> $line.edited.json
+
+		# update the threshold 
+		curl -s -k --cookie mycookie -x put -h "content-type: application/json" -d @$line.edited.json https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/update
+
+		# get updated threshold 
+		curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list?name="$line" | jq &> latest_$line.json
+
+		# display updated threshold to user
+		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp updated threshold $line" --msgbox "$(cat latest_$line.json)" 0 0
+		rm -f latest_$line.json $line.json $line.edited.json
+
+        done < selectedtfiles
+
+        rm -f retval_tmpenv tmpenv retval_proftask proftask threshnames pretfiles myselectedtfiles selectedtfiles thresh.json
+        unset proftask tmpenv pretfiles retval_tmpenv retval_proftask
+        rm -f menu*
+        return
+
+elif [[ "$proftask" == 'import' ]]
+then
+	let i=0 # define counting variable
+	w=() # define working array
+	while read -r line; do # process file by file
+		let i=$i+1
+		w+=($i "$line")
+	#done < <( ls -1 . )
+	done < <( find . -maxdepth 1 -type f -name '*.json' )
+	file=$(dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "select json formatted file to create profile" --menu "chose one" 24 80 17 "${w[@]}" 3>&2 2>&1 1>&3) # show dialog and store output
+	result=$?
+	#       echo "$file" &> result
+	clear
+	if [ $result -eq 0 ]; then # exit with ok
+		echo "${w[$((file * 2 -1))]}" &> createfile
+		sed -i 's/.\///g' createfile
+	fi
+	createfile=$(cat createfile)
+	profilename=$(cat $createfile|grep name\"|cut -d'"' -f4)
+	echo "$profilename" > tester
+
+	###  define and create cookie ###
+	mycookie="/root/manual_upi/tncmp_cli_admin/mycookie"
+	curl -s -k --cookie-jar $mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+
+	rm -f proftask tmpenv createfile tester
+        unset proftask tmpenv createfile profilename
+        rm -f menu*
+        return
+
+elif [[ "$proftask" == 'recover' ]]
+then
+	# get all files from the backup_recovery directory and present them as checklist to the user 
+	ls -1 backup_thresholds/* > recover_threshold
+        cat recover_threshold | tr "\n" "," &> recfiles
+        sed -i 's/,$//' recfiles
+        recfiles=$(cat recfiles)
+
+        MENU_OPTIONS=
+        COUNT=0
+
+        IFS="," read -a MYTYPES <<< $recfiles
+        for i in "${MYTYPES[@]}"
+        do
+                COUNT=$[COUNT+1]
+                MENU_OPTIONS="${MENU_OPTIONS} "$i" ${COUNT} off "
+        done
+        cmd=(dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --separate-output --checklist "select the threshold(s) would like to recover:" 0 120 0)
+        options=(${MENU_OPTIONS})
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+        >myselectedrecfiles
+        echo "$choices" >> myselectedrecfiles
+        cat myselectedrecfiles|tr "," "\n" &> selectedrecfiles
+        while read line
+        do
+
+		###  create cookie ###
+                curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/dashboards/j_security_check
+
+                # remove old times from threshold before recovering the threshold 
+		sed -i 's/"creation_time": ".*",/"creation_time": 0,/' $line
+                sed -i 's/"update_time": .*,/"update_time": 0,/' $line
+
+
+		# create the new threshold
+		curl -s -k --cookie mycookie -X POST -h "content-type: application/json" -d @$line https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/create
+
+		# get new threshold
+		dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "recovered threshold should show on list of thresholds now" --msgbox "$(curl -s -k --cookie mycookie https://dashboard-tncmp.apps.$tmpenv.dfw.accuoss.com/threshold/rest/threshold/list | jq -r '.. | select(type == "object" and has("name")).name')" 0 0
+	done < selectedrecfiles
+        rm -f proftask tmpenv recfiles recover_threshold myselectedtfiles selectedrecfiles
+        unset proftask tmpenv recfiles 
+        rm -f menu*
+        return
+
+else
+	echo "variable not found"	
+fi
+
+
+}
 threshmanagement()
 {
 if [[ -z "$tmpenv" ]]
@@ -1483,41 +2300,41 @@ fi
 
 if [[ -z "$proftask" ]]
 then
-	proftask=$(mktemp -t checklist.XXXXXXXXX)
-	trap 'rm -f "$proftask"' exit
-	trap 'exit 127' hup stop term
-	dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "task selection" --clear --radiolist "select the task for working with thresholds." 0 80 0 "view" "view thresholds" off "create" "create thresholds" off "delete" "delete thresholds" off "update" "update thresholds" off "import" "import thresholds" off "recover" "recover a backed up threshold" off 2> "$proftask"
-	retval=$?
-	echo "$retval" > retval_proftask
-	retval_proftask=$(cat retval_proftask)
-	input=$(cat "$proftask")
-	case $retval_proftask in
-		1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 5 50
-			rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
-			unset retval retval_proftask input proftask retval_tmpenv input tmpenv
-			return
-			;;
-		255)     dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 50
-			rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
-			unset retval retval_proftask input proftask retval_tmpenv input tmpenv
-			return
-			;;
-		0)      proftask=$(echo "$input")
-			echo "$proftask" > proftask
-			proftask=${proftask,,}    # tolower
-			;;
-		*)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "unauthorized key was pressed." --msgbox "$(echo 'unauthorized key was pressed so you will be returned to menu.')" 5 60
-			rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
-			unset retval retval_proftask input proftask retval_tmpenv tmpenv
-			return
-			;;
-	esac
+        proftask=$(mktemp -t checklist.XXXXXXXXX)
+        trap 'rm -f "$proftask"' exit
+        trap 'exit 127' hup stop term
+        dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "task selection" --clear --radiolist "select the task for working with thresholds." 0 80 0 "view" "view thresholds" off "create" "create thresholds" off "delete" "delete thresholds" off "update" "update thresholds" off "import" "import thresholds" off "recover" "recover a backed up threshold" off 2> "$proftask"
+        retval=$?
+        echo "$retval" > retval_proftask
+        retval_proftask=$(cat retval_proftask)
+        input=$(cat "$proftask")
+        case $retval_proftask in
+                1)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "cancel was pressed." --msgbox "$(echo 'cancel was pressed so script will exit.')" 5 50
+                        rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+                        unset retval retval_proftask input proftask retval_tmpenv input tmpenv
+                        return
+                        ;;
+                255)     dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "esc was pressed." --msgbox "$(echo 'esc key was pressed so will return to menu.')" 5 50
+                        rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+                        unset retval retval_proftask input proftask retval_tmpenv input tmpenv
+                        return
+                        ;;
+                0)      proftask=$(echo "$input")
+                        echo "$proftask" > proftask
+                        proftask=${proftask,,}    # tolower
+                        ;;
+                *)      dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "unauthorized key was pressed." --msgbox "$(echo 'unauthorized key was pressed so you will be returned to menu.')" 5 60
+                        rm -f retval_proftask proftask retval_tmpenv tmpenv menu*
+                        unset retval retval_proftask input proftask retval_tmpenv tmpenv
+                        return
+                        ;;
+        esac
 
 else
-	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp variable already exists" --msgbox "$(echo 'proftask variable is already defined')" 0 0
-	rm -f proftask
-	unset proftask
-	return
+        dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "tncmp variable already exists" --msgbox "$(echo 'proftask variable is already defined')" 0 0
+        rm -f proftask
+        unset proftask
+        return
 fi
 
 ##### get cookie #####
@@ -3863,6 +4680,7 @@ do
 	"TNCMP-Resource-Management" "Manage Resources in TNCMP" \
 	"TNCMP-Group-Management" "Manage Groups in TNCMP" \
 	"TNCMP-Metric-Management" "Manage Metrics in TNCMP" \
+	"TNCMP-Alarm-Management" "Manage Alarm Rules, targets and target groups in TNCMP" \
 	"TNCMP-Threshold-Management" "Manage Thresholds in TNCMP" \
 	"TNCMP-Polling-Management" "Manage Polling in TNCMP" \
 	"TNCMP-SNMP-Discovery" "Create, Delete, View SNMP-Discovery Profiles" \
@@ -3881,6 +4699,7 @@ do
 			"TNCMP-Resource-Management")       resourcemanagement ;;
 			"TNCMP-Group-Management")          groupmanagement ;;
 			"TNCMP-Metric-Management")         metricmanagement ;;
+			"TNCMP-Alarm-Management")          alarmmanagement ;;
 			"TNCMP-Threshold-Management")      threshmanagement ;;
 			"TNCMP-Polling-Management")        pollingmanagement ;;
 			"TNCMP-SNMP-Discovery")            discoveryprofiles;;
