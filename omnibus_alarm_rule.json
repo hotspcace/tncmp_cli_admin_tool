@@ -1,7 +1,0 @@
-  {
-    "category": 1,
-    "enabled": true,
-    "name": "omnibus_alarm_rule",
-    "target": "omnibus_target",
-    "target_group": ""
-  }
