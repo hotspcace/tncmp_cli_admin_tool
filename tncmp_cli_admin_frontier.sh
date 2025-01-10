@@ -2589,16 +2589,43 @@ then
 	sed -i "s/\"pollingInterval\": \"$pollprd\",/\"pollingInterval\":$pollprd,/g" final_fixed.json	
 
 	##### Create/update the pollingInterval property for each resource #####
-	curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
+	#curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
+	curl -v -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
+	#curl -v -k --cookie mycookie -X POST -H "Content-Type: application/json" -H Expect: -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
+	# Set the input file and desired chunk size
+	#input_file="final_fixed.json"
+	#chunk_size=10000
+
+	# Create a temporary directory for the chunks
+	#mkdir -p chunks
+
+	# Split the JSON file into chunks and Write each chunk to a separate file
+	#jq -c --stream "reduce range(0;length) as $i ({}; . + {($i): input}) | to_entries[] | select(.key % $chunk_size == $chunk_size) | .value" $input_file | \
+	#while read chunk; do
+    		# Write each chunk to a separate file
+	#	echo "$chunk" > "chunks/chunk_$((++i)).json"
+	#done
+	# Process each chunk and send the chunk to the API
+	#for chunk_file in chunks/*; do
+		# Send the chunk to the API
+	#	curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$chunk_file "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"	
+	#done
+	    #curl -X POST -H "Content-Type: application/json" -d @$chunk_file "https://your-api-endpoint"
+	    #curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @$chunk_file "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
+	#done
+
+	# Clean up
+	#rm -rf chunks
+
 
 	##### Inform user that command is complete and prepare to verify #####
 	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
 
 	##### Get all resources after change #####
-	curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+	#curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
 	##### Present updated json file of resources for verification #####
-	dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
+	#dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
 
 	##### Cleanup temp files #####
 	#rm -f fix_pollingInterval.json after_fix.json
@@ -2633,82 +2660,89 @@ then
 		echo "$choices" >> myselecteddevices
 		cat myselecteddevices | tr "," "\n" &> selecteddevices
 
-		while read line
-		do
+		#while read line
+		#do
 
-			if [[ -z "$rselect" ]]
-			then
-				rselect=$(mktemp -t checklist.XXXXXXXXX)
-				trap 'rm -f "$rselect"' exit
-				trap 'exit 127' hup stop term
-				dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "resource selection" --clear --radiolist "Select resources to change polling on for device $line ?" 0 80 0 "all" "all resources" off "selecttype" "view all by resource type" off "selectspecific" "select a specific resource to view" off 2> "$rselect"
+		if [[ -z "$rselect" ]]
+		then
+			rselect=$(mktemp -t checklist.XXXXXXXXX)
+			trap 'rm -f "$rselect"' exit
+			trap 'exit 127' hup stop term
+			dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "resource selection" --clear --radiolist "Select resources to change polling on for device $line ?" 0 80 0 "all" "all resources" off "selecttype" "view all by resource type" off "selectspecific" "select a specific resource to view" off 2> "$rselect"
 
-				retval=$?
-				input=$(cat "$rselect")
-				case $retval in
-					0)      rselect=$(echo "$input")
-						echo "$rselect" > rselect
-						;;
-					1)      echo "cancel was pressed so script will exit."
-						exit
-						;;
-				esac
+			retval=$?
+			input=$(cat "$rselect")
+			case $retval in
+				0)      rselect=$(echo "$input")
+					echo "$rselect" > rselect
+					;;
+				1)      echo "cancel was pressed so script will exit."
+					exit
+					;;
+			esac
 
-				rselect=${rselect,,}    # tolower
-			else
-				echo "rselect variable is already defined"
-			fi
+			rselect=${rselect,,}    # tolower
+		else
+			echo "rselect variable is already defined"
+		fi
 
-			if [[ "$rselect" == 'all' ]]
-			then
-			##### will get security cookie #####
-			curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
+		if [[ "$rselect" == 'all' ]]
+		then
+			while read line
+			do
 
-			##### Get all resources in the system #####
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
+				##### will get security cookie #####
+				curl -s -k --cookie-jar mycookie -X POST -d "j_username=npiadmin&j_password=npiadmin&login=" https://dashboard-tncmp.apps.tncmp-dev.ftr.com/dashboards/j_security_check
 
-			##### Fix format in json payload file #####
-			sed -i '/totalrecords/d' fix_pollingInterval.json
-			sed -i 's/result/resources/' fix_pollingInterval.json
+				##### Get all resources in the system #####
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> fix_pollingInterval.json
 
-			##### Remove polling interval from all resources #####
-			sed -i '/pollingInterval/d' fix_pollingInterval.json
+				##### Fix format in json payload file #####
+				sed -i '/totalrecords/d' fix_pollingInterval.json
+				sed -i 's/result/resources/' fix_pollingInterval.json
 
-			##### Add pollingInteval property to every resource #####
-			sed -i '/index/a "pollingInterval":$pollprd,' fix_pollingInterval.json
+				##### Remove polling interval from all resources #####
+				sed -i '/pollingInterval/d' fix_pollingInterval.json
 
-			##### adding 2 tabs before the property #####
-			sed -i 's/"polling/     "polling/g' fix_pollingInterval.json
+				##### Add pollingInteval property to every resource #####
+				sed -i '/index/a "pollingInterval":$pollprd,' fix_pollingInterval.json
 
-			##### This finishes formatting the file so it can be the payload needed #####
-			cat fix_pollingInterval.json | jq | sed '/^      ]/d' | sed '/^    },/d' | sed '/^    {/d' | sed '/\"powerSupply\":/d' | sed '/\"interface\":/d' | sed '/\"cpu\":/d' | sed '/\"memory\":/d' | sed '/\"snmpagent\":/d' | sed '/\"fan\":/d' | sed '/\"temperature\":/d' | sed 's/^        }$/        },/g' | sed '/^    }/d' | awk '/,/{for(i=1;i<=n;i++)print s[i];n=0}{s[++n]=$0}END{p=1;while(i=index(substr(s[1],p),","))p+=i;s[1]=substr(s[1],1,p-2)substr(s[1],p);for(i=1;i<=n;i++)print s[i]}' &> final_fixed.json
+				##### adding 2 tabs before the property #####
+				sed -i 's/"polling/     "polling/g' fix_pollingInterval.json
 
-			##### This is yet another stupid fix because it looks like PSL messed up on their code and this property is the only one that requires no space between the colon and value #####
-			sed -i 's/\"pollingInterval\": $pollprd,/"pollingInterval":$pollprd,/g' final_fixed.json
+				##### This finishes formatting the file so it can be the payload needed #####
+				cat fix_pollingInterval.json | jq | sed '/^      ]/d' | sed '/^    },/d' | sed '/^    {/d' | sed '/\"powerSupply\":/d' | sed '/\"interface\":/d' | sed '/\"cpu\":/d' | sed '/\"memory\":/d' | sed '/\"snmpagent\":/d' | sed '/\"fan\":/d' | sed '/\"temperature\":/d' | sed 's/^        }$/        },/g' | sed '/^    }/d' | awk '/,/{for(i=1;i<=n;i++)print s[i];n=0}{s[++n]=$0}END{p=1;while(i=index(substr(s[1],p),","))p+=i;s[1]=substr(s[1],1,p-2)substr(s[1],p);for(i=1;i<=n;i++)print s[i]}' &> final_fixed.json
 
-			##### Create/update the pollingInterval property for each resource #####
-			curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
+				##### This is yet another stupid fix because it looks like PSL messed up on their code and this property is the only one that requires no space between the colon and value #####
+				sed -i 's/\"pollingInterval\": $pollprd,/"pollingInterval":$pollprd,/g' final_fixed.json
 
-			##### Inform user that command is complete and prepare to verify #####
-			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo 'All resources should now have pollingInterval property. The new json list of all resources\nwill be provided for verification')" 20 120
+				##### Create/update the pollingInterval property for each resource #####
+				curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
 
-			##### Get all resources after change #####
-			curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=*&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
+				##### Inform user that command is complete and prepare to verify #####
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate Changes" --msgbox "$(echo "All resources on device $line should now have pollingInterval property. The new json list of all resources\nwill be provided for verification")" 20 120
 
-			##### Present updated json file of resources for verification #####
-			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
+				##### Get all resources after change #####
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=id,tenant,type,index,pollingInterval" | jq &> after_fix.json
 
-			##### Cleanup temp files #####
-			#rm -f fix_pollingInterval.json after_fix.json
+				##### Present updated json file of resources for verification #####
+				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "Validate pollingInterval Property" --textbox after_fix.json 0 0
 
-					# get all properties for a specific device
-					curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> allresources.json
+				##### Cleanup temp files #####
+				#rm -f fix_pollingInterval.json after_fix.json
 
-					##### list all resources #####
-					dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing all resources for device $line" --textbox allresources.json 80 100
+				# get all properties for a specific device
+				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq &> allresources.json
 
-			elif [[ "$rselect" == 'selecttype' ]]
-			then
+				##### list all resources #####
+				dialog --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "viewing all resources for device $line" --textbox allresources.json 80 100
+
+			done < selecteddevices
+
+		elif [[ "$rselect" == 'selecttype' ]]
+		then
+			while read line
+			do
 				curl -s -k --cookie mycookie "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/descendants?source_type=device&target_type=*&relationship=contain&target_index=*&source_id=$line&projections=*" | jq -r '.[]' | grep "\[" | sed 's/://g' | sed 's/"//g' | sed 's/ //g' | sed 's/\[//g' | sed '1d' &> artypes
 
 				# create checklist of devices for user to choose
@@ -2755,7 +2789,7 @@ then
 
 					##### This is yet another stupid fix because it looks like PSL messed up on their code and this property is the only one that requires no space between the colon and value #####
 					# fyi...be aware that if you cat the file and pipe to jq you will see a space still existing but it is only because jq adds it and the file still has no space there
-                                        sed -i '/pollingInterval/s/[[:space:]]//g' final_fixed.json
+					sed -i '/pollingInterval/s/[[:space:]]//g' final_fixed.json
 
 					##### Create/update the pollingInterval property for each resource #####
 					curl -s -k --cookie mycookie -X POST -H "Content-Type: application/json" -d @final_fixed.json "https://dashboard-tncmp.apps.tncmp-dev.ftr.com/inventory/rest/topology/resources/create"
@@ -2771,11 +2805,13 @@ then
 
 
 				done < selectedartypes
-				#return
+			done < selecteddevices
 
-			elif [[ "$rselect" == 'selectspecific' ]]
-			then
-			        ##### Set the pollprd variable #####
+		elif [[ "$rselect" == 'selectspecific' ]]
+		then
+			while read line
+			do
+				##### Set the pollprd variable #####
 				pollprd=$(cat pollprd)
 
 				##### Get resource ID's for checklist#####
@@ -2810,7 +2846,7 @@ then
 				while read rline
 				do
 					##### Set the pollprd variable #####
-        				pollprd=$(cat pollprd)
+					pollprd=$(cat pollprd)
 
 					targettype=$(echo "$rline" | cut -d'_' -f2 | cut -d':' -f1)
 					targetindex=$(echo "$rline" | cut -d'<' -f2 | cut -d'>' -f1)
@@ -2853,14 +2889,16 @@ then
 
 
 				done < selectedrids
+			done < selecteddevices
+			#unset tmpenv tmptask rtargets mtask devices myrids rselect taskdetail myartypes rtypes myrtypes
+                	#rm -f tmpenv tmptask selectedtargets mtask rtargets myselectedtargets selectedtargets.json relation_targets selectedsources rsources myselectedsources selectedsource.json relation_sources taskdetail selecteddevices rselect myselecteddevices devices rids myrids myselectedrids selectedrids device_export allresources.json myartypes myselectedartypes selectedartypes *.resexport.json ids_to_be_deleted artypes byrtype.json retval_tmpenv rtypes myrtypes myselectedrtypes selectedrtypes device_export2 stype.json targettype targetindex
 
-			else
-				dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "no matches" --msgbox "$(echo 'no matches were found so you will be returned to the menu')" 10 60
-			fi
-		done < selecteddevices
+		else
+			dialog --no-collapse --backtitle "TNCMP-CLI-ADMIN-TOOL" --title "no matches" --msgbox "$(echo 'no matches were found so you will be returned to the menu')" 10 60
+		fi
+	#done < selecteddevices
 		#unset tmpenv tmptask rtargets mtask devices myrids rselect taskdetail myartypes rtypes myrtypes
 		#rm -f tmpenv tmptask selectedtargets mtask rtargets myselectedtargets selectedtargets.json relation_targets selectedsources rsources myselectedsources selectedsource.json relation_sources taskdetail selecteddevices rselect myselecteddevices devices rids myrids myselectedrids selectedrids device_export allresources.json myartypes myselectedartypes selectedartypes *.resexport.json ids_to_be_deleted artypes byrtype.json retval_tmpenv rtypes myrtypes myselectedrtypes selectedrtypes device_export2 stype.json targettype targetindex
-
 
 
 elif [[ "$taskdetail" == 'bytype' ]]
